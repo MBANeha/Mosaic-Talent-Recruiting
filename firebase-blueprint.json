@@ -1,0 +1,55 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "A user of the platform (Employer or Candidate)",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "email": { "type": "string", "format": "email", "description": "User's email address" },
+        "displayName": { "type": "string", "description": "User's display name" },
+        "role": { "type": "string", "enum": ["employer", "candidate", "admin"], "description": "User's role in the system" },
+        "companyName": { "type": "string", "description": "Employer's company name" },
+        "jobTitle": { "type": "string", "description": "Employer's job title" },
+        "phone": { "type": "string", "description": "User's phone number" },
+        "website": { "type": "string", "description": "Company website" },
+        "about": { "type": "string", "description": "Company description" },
+        "selectedServices": { "type": "array", "items": { "type": "string" }, "description": "Services interested in" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Account creation timestamp" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Last update timestamp" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Job": {
+      "title": "Job",
+      "description": "A job posting",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique job ID" },
+        "employerId": { "type": "string", "description": "UID of the employer who posted the job" },
+        "title": { "type": "string", "description": "Job title" },
+        "company": { "type": "string", "description": "Company name" },
+        "location": { "type": "string", "description": "Job location" },
+        "type": { "type": "string", "description": "Job type (Full-time, Contract, etc.)" },
+        "salary": { "type": "string", "description": "Salary range" },
+        "description": { "type": "string", "description": "Job description" },
+        "status": { "type": "string", "enum": ["active", "closed", "draft"], "description": "Current status of the posting" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the job was posted" },
+        "placementFee": { "type": "string", "description": "Success-only placement fee" },
+        "contactName": { "type": "string", "description": "Contact person name" },
+        "contactEmail": { "type": "string", "description": "Contact person email" }
+      },
+      "required": ["employerId", "title", "company", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile documents"
+    },
+    "/jobs/{jobId}": {
+      "schema": "Job",
+      "description": "Job posting documents"
+    }
+  }
+}
