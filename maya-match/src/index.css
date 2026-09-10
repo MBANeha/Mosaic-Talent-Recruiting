@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Fraunces", serif;
+  --font-sans: "Manrope", sans-serif;
+
+  --color-ink: #14101b;
+  --color-plum: #241a33;
+  --color-cream: #fbf7f1;
+  --color-sand: #f3ece2;
+
+  --color-maya-amethyst: #6d28d9;
+  --color-maya-amethystDark: #4c1d95;
+  --color-maya-amethystLight: #a78bfa;
+  --color-maya-sapphire: #2454b8;
+  --color-maya-sapphireDark: #173a85;
+  --color-maya-ruby: #c81e5c;
+  --color-maya-rubyDark: #8f1140;
+  --color-maya-gold: #cc9b3c;
+  --color-maya-goldLight: #e7c878;
+  --color-maya-emerald: #1a8f5e;
+
+  --shadow-jewel: 0 20px 60px -15px rgba(76, 29, 149, 0.35);
+  --shadow-soft: 0 8px 30px -10px rgba(20, 16, 27, 0.15);
+
+  --background-image-jewel-mesh: radial-gradient(
+      60% 50% at 15% 20%,
+      rgba(167, 139, 250, 0.55) 0%,
+      rgba(167, 139, 250, 0) 60%
+    ),
+    radial-gradient(55% 45% at 85% 15%, rgba(36, 84, 184, 0.5) 0%, rgba(36, 84, 184, 0) 60%),
+    radial-gradient(60% 50% at 75% 85%, rgba(200, 30, 92, 0.4) 0%, rgba(200, 30, 92, 0) 60%),
+    radial-gradient(50% 40% at 10% 90%, rgba(204, 155, 60, 0.35) 0%, rgba(204, 155, 60, 0) 60%);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-cream);
+}
+
+::selection {
+  background: #a78bfa;
+  color: #14101b;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
