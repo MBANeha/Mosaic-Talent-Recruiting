@@ -1,6 +1,7 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { Sparkles, LayoutDashboard, Map, ClipboardList, Users2, Image, LogOut } from 'lucide-react';
+import { isAdminUnlocked, clearAdminUnlocked } from '../data/adminAuth';
 
 const items = [
   { to: '/admin/today', label: 'Maya Today', icon: LayoutDashboard },
@@ -12,6 +13,15 @@ const items = [
 
 export const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  if (!isAdminUnlocked()) return <Navigate to="/admin" replace />;
+
+  function handleExit() {
+    clearAdminUnlocked();
+    navigate('/');
+  }
+
   return (
     <div className="min-h-screen bg-[#0F0B18] text-cream">
       <div className="flex min-h-screen">
@@ -43,9 +53,12 @@ export const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children 
               );
             })}
           </nav>
-          <Link to="/" className="mt-4 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-cream/50 hover:text-white">
+          <button
+            onClick={handleExit}
+            className="mt-4 flex items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium text-cream/50 hover:text-white"
+          >
             <LogOut size={17} /> Exit to member site
-          </Link>
+          </button>
         </aside>
         <div className="flex-1">
           <header className="flex items-center justify-between border-b border-white/10 px-5 py-4 lg:hidden">
@@ -55,7 +68,7 @@ export const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children 
               </span>
               <span className="font-display text-sm font-semibold">Maya Match Console</span>
             </Link>
-            <Link to="/" className="text-xs text-cream/50">Exit</Link>
+            <button onClick={handleExit} className="text-xs text-cream/50">Exit</button>
           </header>
           <div className="flex gap-1 overflow-x-auto border-b border-white/10 px-4 py-2 lg:hidden">
             {items.map((item) => (
