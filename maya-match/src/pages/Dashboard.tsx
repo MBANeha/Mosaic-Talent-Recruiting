@@ -47,7 +47,7 @@ export const Dashboard: React.FC = () => {
     nextAction = { label: "View Maya's Decision", to: '/decision', desc: 'Maya has shared an update on your application.' };
   }
 
-  const referralLink = `mayamatch.com/request-invitation?ref=${m.referralCode}`;
+  const referralLink = `www.mayamatch.com/request-invitation?ref=${m.referralCode}`;
   function copyLink() {
     navigator.clipboard?.writeText(`https://${referralLink}`).catch(() => {});
     setCopied(true);

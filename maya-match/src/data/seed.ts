@@ -5,6 +5,19 @@ import type {
   Member,
 } from '../types';
 
+const earlyRegion = (id: string, name: string, qualified: number, ageBandPct: number, poolBalance: number, reciprocalMatches: number): Region => ({
+  id,
+  name,
+  status: 'EARLY',
+  qualified,
+  ageBandPct,
+  poolBalance,
+  reciprocalMatches,
+  strongSegments: ['Early interest only'],
+  weakSegments: ['Insufficient density across all segments'],
+  growthRecommendation: 'Continue founding-list collection before activating Dream Dates.',
+});
+
 export const REGIONS: Region[] = [
   {
     id: 'nyc',
@@ -19,8 +32,8 @@ export const REGIONS: Region[] = [
     growthRecommendation: 'Recruit professional men 35–42 in NYC / North Jersey.',
   },
   {
-    id: 'dmv',
-    name: 'DMV',
+    id: 'dc',
+    name: 'DC Metro',
     status: 'BUILDING',
     qualified: 156,
     ageBandPct: 54,
@@ -32,7 +45,7 @@ export const REGIONS: Region[] = [
   },
   {
     id: 'boston',
-    name: 'Boston',
+    name: 'Boston Metro',
     status: 'BUILDING',
     qualified: 98,
     ageBandPct: 61,
@@ -54,6 +67,50 @@ export const REGIONS: Region[] = [
     weakSegments: ['Insufficient density across all segments'],
     growthRecommendation: 'Continue founding-list collection before activating Dream Dates.',
   },
+  {
+    id: 'chicago',
+    name: 'Chicago Metro',
+    status: 'BUILDING',
+    qualified: 87,
+    ageBandPct: 57,
+    poolBalance: 41,
+    reciprocalMatches: 16,
+    strongSegments: ['Finance & consulting professionals 30–37'],
+    weakSegments: ['Men 38–45'],
+    growthRecommendation: 'Recruit senior men 38–45 in the Loop & North Shore through professional associations.',
+  },
+  {
+    id: 'california',
+    name: 'California',
+    status: 'BUILDING',
+    qualified: 134,
+    ageBandPct: 52,
+    poolBalance: 44,
+    reciprocalMatches: 19,
+    strongSegments: ['Tech professionals 28–35 in the Bay Area'],
+    weakSegments: ['Men 36–45 in LA'],
+    growthRecommendation: 'Recruit men 36–45 in Los Angeles through entertainment & professional networks.',
+  },
+  {
+    id: 'texas',
+    name: 'Texas',
+    status: 'BUILDING',
+    qualified: 76,
+    ageBandPct: 49,
+    poolBalance: 38,
+    reciprocalMatches: 12,
+    strongSegments: ['Engineering & energy professionals in Houston'],
+    weakSegments: ['Women 30–38 in Austin & Dallas'],
+    growthRecommendation: 'Recruit women 30–38 in Austin & Dallas through tech and healthcare networks.',
+  },
+  earlyRegion('florida', 'Florida', 29, 31, 20, 4),
+  earlyRegion('midwest', 'Midwest', 24, 28, 18, 3),
+  earlyRegion('seattle', 'Seattle Metro', 22, 30, 19, 3),
+  earlyRegion('atlanta', 'Atlanta Metro', 27, 34, 21, 4),
+  earlyRegion('denver', 'Denver Metro', 15, 24, 14, 2),
+  earlyRegion('charlotte', 'Charlotte Metro', 13, 22, 13, 2),
+  earlyRegion('phoenix', 'Phoenix Metro', 11, 20, 11, 1),
+  earlyRegion('sandiego', 'San Diego Metro', 10, 19, 10, 1),
 ];
 
 const gradients = [
@@ -261,7 +318,7 @@ export const SEED_MEMBERS: Member[] = [
       email: 'meera@example.com',
       city: 'Arlington',
       state: 'VA',
-      nearestMetro: 'DMV',
+      nearestMetro: 'DC Metro',
       datingRadius: '20 miles',
       age: '29',
       gender: 'Woman',
@@ -281,7 +338,7 @@ export const SEED_MEMBERS: Member[] = [
     },
     matchProfile: blankProfile(),
     profileCompletion: 60,
-    region: 'DMV',
+    region: 'DC Metro',
     poolStatus: 'BUILDING',
     reviewStatus: 'PENDING',
     aiRecommendation: 'STRONG_FIT',

@@ -10,7 +10,7 @@ export const Invite: React.FC = () => {
   const [copied, setCopied] = useState(false);
   if (!currentMember) return <Navigate to="/request-invitation" replace />;
 
-  const link = `mayamatch.com/request-invitation?ref=${currentMember.referralCode}`;
+  const link = `www.mayamatch.com/request-invitation?ref=${currentMember.referralCode}`;
   function copyLink() {
     navigator.clipboard?.writeText(`https://${link}`).catch(() => {});
     setCopied(true);

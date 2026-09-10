@@ -20,8 +20,16 @@ const REGION_EMOJI: Record<string, string> = {
   EARLY: '🔴',
 };
 
+const STATUS_RANK: Record<string, number> = { ACTIVE: 0, READY: 1, BUILDING: 2, EARLY: 3 };
+const MARKET_HEALTH_PREVIEW_COUNT = 6;
+
 export const AdminToday: React.FC = () => {
   const { db, adminToday, regions, currentMember, reviewQueue } = useStore();
+
+  const topRegions = [...regions]
+    .sort((a, b) => STATUS_RANK[a.status] - STATUS_RANK[b.status])
+    .slice(0, MARKET_HEALTH_PREVIEW_COUNT);
+  const remainingRegionCount = regions.length - topRegions.length;
 
   const liveRequests = currentMember ? db.dateRequests.filter((r) => r.memberId === currentMember.id).length : 0;
   const liveScheduled = currentMember ? db.scheduledDates.filter((d) => d.memberId === currentMember.id).length : 0;
@@ -63,7 +71,7 @@ export const AdminToday: React.FC = () => {
         <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
           <h2 className="font-display text-lg font-semibold text-white">Market Health</h2>
           <div className="mt-4 flex flex-col divide-y divide-white/10">
-            {regions.map((r) => (
+            {topRegions.map((r) => (
               <div key={r.id} className="flex items-center justify-between py-3">
                 <span className="text-sm font-medium text-cream/80">{r.name}</span>
                 <span className="flex items-center gap-2 text-sm text-cream/60">
@@ -73,7 +81,9 @@ export const AdminToday: React.FC = () => {
             ))}
           </div>
           <Link to="/admin/regions" className="mt-4 inline-block text-sm font-semibold text-maya-amethystLight hover:underline">
-            Open Regional Pool Engine →
+            {remainingRegionCount > 0
+              ? `+${remainingRegionCount} more markets — open Regional Pool Engine →`
+              : 'Open Regional Pool Engine →'}
           </Link>
         </div>
 

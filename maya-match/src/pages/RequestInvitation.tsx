@@ -4,10 +4,10 @@ import { Camera } from 'lucide-react';
 import { Page } from '../components/Layout';
 import { Button, Card, Eyebrow, Field, Input, Select, Textarea, CheckboxRow } from '../components/ui';
 import { useStore } from '../data/store';
-import { BUDGET_OPTIONS } from '../data/seed';
+import { BUDGET_OPTIONS, REGIONS } from '../data/seed';
 import type { InvitationInput, SocialNetwork } from '../types';
 
-const METROS = ['NYC Metro', 'DMV', 'Boston', 'Philadelphia', 'Other / Not Listed Yet'];
+const METROS = [...REGIONS.map((r) => r.name), 'Other / Not Listed Yet'];
 const NOT_INTERESTED = 'Not interested in paid services';
 
 const emptyForm: InvitationInput = {

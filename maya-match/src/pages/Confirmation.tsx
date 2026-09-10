@@ -14,7 +14,7 @@ export const Confirmation: React.FC = () => {
 
   if (!currentMember) return <Navigate to="/request-invitation" replace />;
 
-  const referralLink = `mayamatch.com/request-invitation?ref=${currentMember.referralCode}`;
+  const referralLink = `www.mayamatch.com/request-invitation?ref=${currentMember.referralCode}`;
 
   function copyLink() {
     navigator.clipboard?.writeText(`https://${referralLink}`).catch(() => {});
