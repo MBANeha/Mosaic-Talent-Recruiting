@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ShieldCheck, EyeOff, Users, Sparkles } from 'lucide-react';
 import { Page } from '../components/Layout';
-import { Button, Card, Eyebrow, Pill } from '../components/ui';
+import { Button, Card, Eyebrow } from '../components/ui';
 
 const steps = [
   { label: 'CURATED', desc: 'Maya reviews every profile personally before anyone joins the community.' },
@@ -113,38 +113,6 @@ export const Landing: React.FC = () => {
             </Link>
           </div>
         </div>
-      </section>
-
-      {/* Pool building honesty section */}
-      <section className="mx-auto max-w-5xl px-5 py-20 sm:px-8">
-        <Card className="overflow-hidden p-0">
-          <div className="grid gap-0 sm:grid-cols-2">
-            <div className="p-10">
-              <Pill tone="amethyst" dot>Founding pools, building now</Pill>
-              <h3 className="mt-4 font-display text-2xl font-semibold text-ink">
-                We won't oversell a pool that isn't ready.
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-ink/60">
-                Maya launches Dream Dates in a region only once there are enough real, reciprocal matches to
-                deliver on the promise. Everywhere else, you can register now, build your Match Profile, and
-                become a Founding Member while your local pool grows.
-              </p>
-              <Link to="/request-invitation" className="mt-6 inline-block">
-                <Button>Get on Maya's radar</Button>
-              </Link>
-            </div>
-            <div className="flex flex-col justify-center gap-4 bg-sand p-10">
-              {['NYC Metro', 'DMV', 'Boston', 'Philadelphia'].map((city, i) => (
-                <div key={city} className="flex items-center justify-between rounded-2xl bg-white px-5 py-3.5 shadow-soft">
-                  <span className="text-sm font-semibold text-ink">{city}</span>
-                  <Pill tone={i === 0 ? 'emerald' : i === 3 ? 'red' : 'amethyst'} dot>
-                    {i === 0 ? 'Active' : i === 3 ? 'Early' : 'Building'}
-                  </Pill>
-                </div>
-              ))}
-            </div>
-          </div>
-        </Card>
       </section>
     </Page>
   );
