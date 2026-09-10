@@ -5,11 +5,15 @@ import { Page } from '../components/Layout';
 import { Button, Card, Eyebrow } from '../components/ui';
 
 const steps = [
-  { label: 'CURATED', desc: "Maya reviews your Match Profile and selects promising people from the community — you never browse the full pool." },
-  { label: 'MEET', desc: 'If someone interests you, request a Dream Date. If both agree, Maya schedules a 30-minute virtual date.' },
-  { label: 'REFLECT', desc: 'Afterward, both of you privately complete feedback — no pressure, no performance.' },
-  { label: 'DECIDE', desc: 'You each answer one honest question: would you like to see them again?' },
-  { label: 'CONNECT', desc: 'If you both say yes, Maya exchanges contact information. If not, feedback simply helps Maya refine your next picks.' },
+  { label: 'JOIN', desc: 'Become part of a screened community of intentional singles.' },
+  {
+    label: 'GET CURATED',
+    desc: 'Maya identifies promising people based on geography, relationship goals, life stage, cultural and religious preferences, family goals, lifestyle, personality, and education or career.',
+  },
+  { label: 'CHOOSE', desc: 'Maya presents a small number of curated profiles. You decide whether to request a Dream Date.' },
+  { label: 'MEET', desc: 'If both agree, Maya facilitates a private, 30-minute virtual Dream Date.' },
+  { label: 'REFLECT', desc: 'Afterward, both of you privately submit feedback — no pressure, no performance.' },
+  { label: 'CONNECT', desc: 'If you both want to continue, Maya exchanges contact information.' },
 ];
 
 const nots = [
@@ -33,7 +37,7 @@ export const DreamDatesInfo: React.FC = () => (
     </section>
 
     <section className="mx-auto max-w-5xl px-5 py-16 sm:px-8">
-      <div className="grid gap-6 sm:grid-cols-5">
+      <div className="grid gap-6 sm:grid-cols-3">
         {steps.map((s, i) => (
           <Card key={s.label} className="flex flex-col p-6">
             <span className="font-display text-2xl font-semibold text-maya-amethyst">{i + 1}</span>

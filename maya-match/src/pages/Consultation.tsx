@@ -43,7 +43,7 @@ export const Consultation: React.FC = () => {
           <Eyebrow className="mt-4">Private Matchmaking Consultation — $50</Eyebrow>
           <p className="mt-3 text-sm leading-relaxed text-ink/60">
             Before Dream Dates begins, Maya's team meets every {info.name} member personally. Your $50
-            consultation payment will be applied toward your Dream Dates package if you're approved and join.
+            consultation payment will be credited toward your Dream Dates package if you are approved and join.
           </p>
 
           {!paid ? (

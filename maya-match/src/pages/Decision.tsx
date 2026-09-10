@@ -45,11 +45,12 @@ export const Decision: React.FC = () => {
             </div>
             <Eyebrow>Maya's decision</Eyebrow>
             <h1 className="mt-2 font-display text-3xl font-semibold text-ink sm:text-4xl">
-              We're building your pool.
+              We're Building Your Maya Pool. 💜
             </h1>
             <Card className="mt-6 p-7 text-left">
               <p className="text-ink/70">
-                We'd love to have you in Maya. We're currently building the Dream Dates pool in your region.
+                We think you could be a strong fit for Maya. We're currently growing the dating pool in your
+                area so we can create meaningful opportunities rather than random introductions.
               </p>
               <p className="mt-3 text-ink/70">
                 You may join as a <strong>Founding Member</strong> now and be among the first considered as

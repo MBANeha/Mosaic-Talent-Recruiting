@@ -5,10 +5,11 @@ import { Page } from '../components/Layout';
 import { Button, Card, Eyebrow } from '../components/ui';
 
 const steps = [
-  { label: 'CURATED', desc: 'Maya reviews every profile personally before anyone joins the community.' },
-  { label: 'MEET', desc: 'You receive a limited, thoughtful selection — never an endless feed.' },
-  { label: 'REFLECT', desc: 'A 30-minute virtual Dream Date, then private feedback on both sides.' },
-  { label: 'DECIDE', desc: 'Only mutual "yes" moves forward. No guessing, no ghosting.' },
+  { label: 'JOIN', desc: 'Become part of a screened community of intentional singles.' },
+  { label: 'GET CURATED', desc: 'Maya identifies promising people based on your goals, geography, and preferences.' },
+  { label: 'CHOOSE', desc: 'Maya presents a small number of curated profiles — you decide who to meet.' },
+  { label: 'MEET', desc: 'A private, 30-minute virtual Dream Date, then private feedback on both sides.' },
+  { label: 'REFLECT', desc: 'Only mutual "yes" moves forward. No guessing, no ghosting.' },
   { label: 'CONNECT', desc: 'Contact is exchanged only once you both want to keep going.' },
 ];
 
@@ -105,7 +106,7 @@ export const Landing: React.FC = () => {
             <Eyebrow className="text-maya-amethystLight">The Dream Dates model</Eyebrow>
             <h2 className="mt-3 font-display text-3xl font-semibold sm:text-4xl">Maya curates the community. You choose.</h2>
           </div>
-          <div className="mt-14 grid gap-6 sm:grid-cols-5">
+          <div className="mt-14 grid gap-6 sm:grid-cols-3">
             {steps.map((s, i) => (
               <div key={s.label} className="relative">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/10 font-display text-lg font-semibold text-white">

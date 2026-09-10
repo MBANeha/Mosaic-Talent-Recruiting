@@ -28,10 +28,13 @@ export const Confirmation: React.FC = () => {
         <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-maya-amethyst to-maya-ruby text-3xl">
           💜
         </div>
-        <h1 className="font-display text-3xl font-semibold text-ink sm:text-4xl">You're on Maya's radar.</h1>
+        <h1 className="font-display text-3xl font-semibold text-ink sm:text-4xl">
+          You're Officially on Maya's Radar. 💜
+        </h1>
         <p className="mx-auto mt-4 max-w-lg text-ink/60">
-          Maya is building each dating pool intentionally, region by region. Your registration helps us
-          understand who is looking for meaningful connections in <strong>{currentMember.region}</strong>.
+          Maya is building each dating pool intentionally rather than opening the doors to everyone. Complete
+          your Maya Profile so we can learn more about you and who might make sense for you in{' '}
+          <strong>{currentMember.region}</strong>.
         </p>
         <p className="mx-auto mt-2 max-w-lg text-sm text-ink/40">
           Maya Profile ID: <span className="font-mono text-ink/60">{currentMember.id}</span>

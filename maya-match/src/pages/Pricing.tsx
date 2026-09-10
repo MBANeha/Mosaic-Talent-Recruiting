@@ -17,6 +17,7 @@ interface Tier {
   badge?: string;
   requiresConsultation: boolean;
   accent: string;
+  disclaimer?: string;
 }
 
 const TIERS: Tier[] = [
@@ -37,6 +38,7 @@ const TIERS: Tier[] = [
     cta: 'Join Maya Match',
     requiresConsultation: false,
     accent: 'from-maya-amethyst to-maya-amethystDark',
+    disclaimer: 'Membership does not guarantee a match or Dream Date.',
   },
   {
     tier: 'SAPPHIRE',
@@ -163,6 +165,7 @@ export const Pricing: React.FC = () => {
                   Starts with a $50 consultation, credited toward this package.
                 </p>
               )}
+              {t.disclaimer && <p className="mt-3 text-center text-[11px] text-ink/40">{t.disclaimer}</p>}
             </Card>
           ))}
         </div>
