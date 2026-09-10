@@ -594,6 +594,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         referralSource: 'Preview tool',
         referrerName: '',
         mayaInsiderOptIn: true,
+        confirmedSingle: true,
         photoDataUrl: '',
         socialNetwork: 'Instagram',
         socialHandle: '@preview.member',

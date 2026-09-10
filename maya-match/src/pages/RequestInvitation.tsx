@@ -38,6 +38,7 @@ const emptyForm: InvitationInput = {
   referralSource: '',
   referrerName: '',
   mayaInsiderOptIn: true,
+  confirmedSingle: false,
   photoDataUrl: '',
   socialNetwork: '',
   socialHandle: '',
@@ -63,6 +64,7 @@ export const RequestInvitation: React.FC = () => {
   const [form, setForm] = useState<InvitationInput>({ ...emptyForm, referredByCode: ref ?? undefined });
   const [submitting, setSubmitting] = useState(false);
   const [photoError, setPhotoError] = useState('');
+  const [singleError, setSingleError] = useState('');
 
   const set = <K extends keyof InvitationInput>(key: K, value: InvitationInput[K]) =>
     setForm((f) => ({ ...f, [key]: value }));
@@ -103,6 +105,11 @@ export const RequestInvitation: React.FC = () => {
       setPhotoError('A photo is required so Maya can review you.');
       return;
     }
+    if (!form.confirmedSingle) {
+      setSingleError('Please confirm that you are currently single to request a Dream Dates invitation.');
+      return;
+    }
+    setSingleError('');
     setSubmitting(true);
     requestInvitation(form);
     setTimeout(() => navigate('/confirmation'), 350);
@@ -322,10 +329,33 @@ export const RequestInvitation: React.FC = () => {
               />
             </Field>
 
-            <div className="sm:col-span-2">
+            <div className="rounded-2xl border border-ink/10 bg-sand/40 p-4 sm:col-span-2">
               <CheckboxRow checked={form.mayaInsiderOptIn} onChange={(v) => set('mayaInsiderOptIn', v)}>
-                Send me Maya Match updates. <span className="font-normal text-ink/40">Optional. Unsubscribe at any time.</span>
+                <strong>Send me Maya Match updates</strong>
+                <br />
+                <span className="font-normal text-ink/40">Optional. Unsubscribe at any time.</span>
               </CheckboxRow>
+            </div>
+
+            <div
+              className={`rounded-2xl border p-4 sm:col-span-2 ${
+                singleError ? 'border-maya-ruby/50 bg-maya-ruby/5' : 'border-maya-gold/40 bg-maya-gold/5'
+              }`}
+            >
+              <CheckboxRow
+                checked={form.confirmedSingle}
+                onChange={(v) => {
+                  set('confirmedSingle', v);
+                  if (v) setSingleError('');
+                }}
+              >
+                <strong>
+                  I confirm that I am currently single. <span className="text-maya-ruby">*</span>
+                </strong>
+                <br />
+                <span className="font-normal text-ink/40">This confirmation is required to request a Dream Dates invitation.</span>
+              </CheckboxRow>
+              {singleError && <p className="mt-2 text-xs font-medium text-maya-ruby">{singleError}</p>}
             </div>
 
             <div className="rounded-2xl border border-maya-gold/25 bg-maya-gold/5 p-5 sm:col-span-2">
@@ -360,10 +390,11 @@ export const RequestInvitation: React.FC = () => {
 
             <div className="sm:col-span-2">
               <Button type="submit" size="lg" className="w-full" disabled={submitting}>
-                {submitting ? 'Submitting…' : 'Request Your Invitation'}
+                {submitting ? 'Submitting…' : 'Request my invitation'}
               </Button>
               <p className="mt-3 text-center text-xs text-ink/40">
-                No payment required. You'll create your Maya Profile ID immediately.
+                Submitting creates or updates your stable Maya Match applicant record. Applying is free and
+                does not guarantee acceptance, a match, or a date.
               </p>
             </div>
           </form>

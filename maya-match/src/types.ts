@@ -37,6 +37,8 @@ export interface InvitationInput {
   /** Who told them about Maya Match, if anyone — distinct from referralSource (how, vs. who). */
   referrerName: string;
   mayaInsiderOptIn: boolean;
+  /** Required checkbox confirming current single status before Maya will consider a Dream Dates invitation. */
+  confirmedSingle: boolean;
   referredByCode?: string;
   /** Data URL of the uploaded photo — required so Maya can review a real photo, not just a written profile. */
   photoDataUrl: string;
