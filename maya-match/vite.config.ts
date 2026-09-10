@@ -14,4 +14,10 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src'),
     },
   },
+  build: {
+    // Inline imported images (e.g. the hero photo) as base64 so they survive
+    // the single-file artifact bundling step, which only inlines the built
+    // CSS/JS and has no access to separately emitted asset files.
+    assetsInlineLimit: 300000,
+  },
 });

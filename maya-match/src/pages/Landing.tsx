@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, ShieldCheck, EyeOff, Users, Sparkles } from 'lucide-react';
 import { Page } from '../components/Layout';
 import { Button, Card, Eyebrow } from '../components/ui';
+import heroCouple from '../assets/hero-couple.jpg';
 
 const heroBeats = ['Meet', 'Reflect', 'Decide', 'Connect'];
 
@@ -81,9 +82,8 @@ export const Landing: React.FC = () => {
 
           <div className="animate-fade-up relative mx-auto w-full max-w-md lg:max-w-none" style={{ animationDelay: '260ms' }}>
             <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-white/15 shadow-2xl">
-              <div className="absolute inset-0 bg-jewel-mesh" />
-              <div className="absolute inset-0 bg-gradient-to-br from-maya-amethyst/80 via-plum/70 to-maya-ruby/80" />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-transparent to-transparent" />
+              <img src={heroCouple} alt="Maya Match members at a Dream Dates event" className="h-full w-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/5 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-6">
                 <p className="font-display text-xl italic text-cream sm:text-2xl">
                   {heroBeats.join('. ')}.

@@ -598,7 +598,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         photoDataUrl: '',
         socialNetwork: 'Instagram',
         socialHandle: '@preview.member',
-        budgetInterest: ['Amethyst — $549–$629', 'Diamond — $749–$849'],
+        budgetInterest: ['Amethyst VIP — 7 Dream Dates — $549–$629', 'Diamond VIP — 11 Dream Dates — $749–$849'],
         friendReferralName: '',
         friendReferralEmail: '',
       };
