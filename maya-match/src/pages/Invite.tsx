@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { Copy, Check, Gift } from 'lucide-react';
+import { Copy, Check, Gift, Send, Mail } from 'lucide-react';
 import { Page } from '../components/Layout';
-import { Button, Card, Eyebrow, Pill } from '../components/ui';
+import { Button, Card, Eyebrow, Field, Input, Pill } from '../components/ui';
 import { useStore } from '../data/store';
 
 export const Invite: React.FC = () => {
-  const { currentMember } = useStore();
+  const { currentMember, sendReferralInvite, referralInvitesForMember } = useStore();
   const [copied, setCopied] = useState(false);
+  const [friendName, setFriendName] = useState('');
+  const [friendEmail, setFriendEmail] = useState('');
+  const [justSent, setJustSent] = useState<string | null>(null);
+
   if (!currentMember) return <Navigate to="/request-invitation" replace />;
 
   const link = `www.mayamatch.com/request-invitation?ref=${currentMember.referralCode}`;
@@ -15,6 +19,19 @@ export const Invite: React.FC = () => {
     navigator.clipboard?.writeText(`https://${link}`).catch(() => {});
     setCopied(true);
     setTimeout(() => setCopied(false), 1800);
+  }
+
+  const sentInvites = referralInvitesForMember(currentMember.id);
+
+  function handleSend(e: React.FormEvent) {
+    e.preventDefault();
+    const trimmedName = friendName.trim();
+    const trimmedEmail = friendEmail.trim();
+    if (!trimmedName || !trimmedEmail) return;
+    const invite = sendReferralInvite(currentMember!.id, trimmedName, trimmedEmail);
+    setJustSent(invite.id);
+    setFriendName('');
+    setFriendEmail('');
   }
 
   return (
@@ -37,6 +54,54 @@ export const Invite: React.FC = () => {
               {copied ? 'Copied' : 'Copy Link'}
             </Button>
           </div>
+        </Card>
+
+        <Card className="mt-6 p-8">
+          <Eyebrow>Or send it directly</Eyebrow>
+          <h2 className="mt-2 font-display text-lg font-semibold text-ink">Invite a friend by name</h2>
+          <p className="mt-1 text-sm text-ink/60">
+            Tell Maya who to invite — we'll send them a personal invitation with your name on it.
+          </p>
+          <form onSubmit={handleSend} className="mt-5 grid gap-4 sm:grid-cols-2">
+            <Field label="Friend's name" required>
+              <Input required value={friendName} onChange={(e) => setFriendName(e.target.value)} placeholder="e.g. Rina Shah" />
+            </Field>
+            <Field label="Friend's email" required>
+              <Input
+                required
+                type="email"
+                value={friendEmail}
+                onChange={(e) => setFriendEmail(e.target.value)}
+                placeholder="rina@example.com"
+              />
+            </Field>
+            <div className="sm:col-span-2">
+              <Button type="submit" className="w-full sm:w-auto">
+                <Send size={15} /> Send Invitation
+              </Button>
+            </div>
+          </form>
+
+          {sentInvites.length > 0 && (
+            <div className="mt-6 flex flex-col gap-3 border-t border-ink/8 pt-6">
+              {sentInvites.map((invite) => (
+                <div key={invite.id} className="rounded-2xl bg-sand/70 p-4">
+                  <div className="flex items-center justify-between">
+                    <span className="flex items-center gap-2 text-sm font-semibold text-ink">
+                      <Mail size={14} className="text-maya-amethyst" /> To {invite.friendName}
+                    </span>
+                    {justSent === invite.id && (
+                      <span className="flex items-center gap-1 text-xs font-semibold text-maya-emerald">
+                        <Check size={13} /> Sent
+                      </span>
+                    )}
+                  </div>
+                  <p className="mt-2 text-sm italic leading-relaxed text-ink/60">"{invite.message}"</p>
+                  <p className="mt-2 text-xs text-ink/35">{invite.friendEmail}</p>
+                </div>
+              ))}
+            </div>
+          )}
         </Card>
 
         <Card muted className="mt-6 flex items-start gap-4 p-7">

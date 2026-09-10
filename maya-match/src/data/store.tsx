@@ -12,6 +12,7 @@ import type {
   MigrationCandidate,
   InboxMessage,
   MayaQA,
+  ReferralInvite,
 } from '../types';
 import {
   REGIONS,
@@ -36,6 +37,7 @@ interface DB {
   scheduledDates: ScheduledDate[];
   migrationCandidates: MigrationCandidate[];
   messages: InboxMessage[];
+  referralInvites: ReferralInvite[];
 }
 
 function loadDB(): DB {
@@ -44,6 +46,7 @@ function loadDB(): DB {
     if (raw) {
       const parsed = JSON.parse(raw) as DB;
       if (!parsed.messages) parsed.messages = [];
+      if (!parsed.referralInvites) parsed.referralInvites = [];
       return parsed;
     }
   } catch {
@@ -57,6 +60,7 @@ function loadDB(): DB {
     scheduledDates: [],
     migrationCandidates: MIGRATION_CANDIDATES,
     messages: [],
+    referralInvites: [],
   };
 }
 
@@ -144,6 +148,8 @@ interface StoreValue {
   sendTextMessage: (dateId: string, text: string) => void;
   sendAudioMessage: (dateId: string, audioDataUrl: string, durationSec: number) => void;
   messagesForDate: (dateId: string) => InboxMessage[];
+  sendReferralInvite: (memberId: string, friendName: string, friendEmail: string) => ReferralInvite;
+  referralInvitesForMember: (memberId: string) => ReferralInvite[];
   advanceMigration: (id: string) => void;
   setMigrationDecision: (id: string, decision: MigrationCandidate['mayaDecision']) => void;
   adminToday: typeof ADMIN_TODAY_BASE;
@@ -476,6 +482,28 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       return db.messages.filter((m) => m.dateId === dateId).sort((a, b) => a.createdAt - b.createdAt);
     },
 
+    sendReferralInvite(memberId, friendName, friendEmail) {
+      const member = db.members.find((m) => m.id === memberId);
+      const referrerName = member ? `${member.invitation.firstName} ${member.invitation.lastName}`.trim() : 'A Maya Match member';
+      const link = `www.mayamatch.com/request-invitation?ref=${member?.referralCode ?? ''}`;
+      const invite: ReferralInvite = {
+        id: `refinv-${Date.now()}`,
+        memberId,
+        friendName,
+        friendEmail,
+        message: `Your friend, ${referrerName}, thought you'd be interested in our service. Here is your special invitation: ${link}`,
+        sentAt: Date.now(),
+      };
+      setDb((prev) => ({ ...prev, referralInvites: [...prev.referralInvites, invite] }));
+      return invite;
+    },
+
+    referralInvitesForMember(memberId) {
+      return db.referralInvites
+        .filter((r) => r.memberId === memberId)
+        .sort((a, b) => b.sentAt - a.sentAt);
+    },
+
     advanceMigration(id) {
       const order: MigrationCandidate['status'][] = [
         'Not Yet Invited',
@@ -519,6 +547,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         scheduledDates: [],
         migrationCandidates: MIGRATION_CANDIDATES,
         messages: [],
+        referralInvites: [],
       });
     },
 

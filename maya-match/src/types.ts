@@ -205,6 +205,15 @@ export interface Region {
   growthRecommendation: string;
 }
 
+export interface ReferralInvite {
+  id: string;
+  memberId: string;
+  friendName: string;
+  friendEmail: string;
+  message: string;
+  sentAt: number;
+}
+
 export interface MayaQA {
   id: string;
   question: string;
