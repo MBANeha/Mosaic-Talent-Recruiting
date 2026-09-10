@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Camera } from 'lucide-react';
+import { Camera, ShieldCheck, Lock, Gift, CircleDollarSign } from 'lucide-react';
 import { Page } from '../components/Layout';
 import { Button, Card, Eyebrow, Field, Input, Select, Textarea, CheckboxRow } from '../components/ui';
 import { useStore } from '../data/store';
@@ -9,6 +9,12 @@ import type { InvitationInput, SocialNetwork } from '../types';
 
 const METROS = [...REGIONS.map((r) => r.name), 'Other / Not Listed Yet'];
 const NOT_INTERESTED = 'Not interested in paid services';
+
+const trustPoints = [
+  { icon: CircleDollarSign, text: 'Free to apply — no payment collected here' },
+  { icon: Lock, text: 'Reviewed privately by Maya, never shown publicly' },
+  { icon: ShieldCheck, text: 'No pressure — you decide what happens next' },
+];
 
 const emptyForm: InvitationInput = {
   firstName: '',
@@ -21,18 +27,23 @@ const emptyForm: InvitationInput = {
   age: '',
   gender: '',
   interestedIn: '',
-  culturalBackground: '',
-  culturalImportance: 'Somewhat important',
+  raceEthnicity: '',
+  partnerRaceEthnicity: '',
+  religion: '',
+  partnerReligion: '',
   relationshipStatus: '',
   childrenStatus: '',
   relationshipGoal: '',
   whyMaya: '',
   referralSource: '',
+  referrerName: '',
   mayaInsiderOptIn: true,
   photoDataUrl: '',
   socialNetwork: '',
   socialHandle: '',
   budgetInterest: [],
+  friendReferralName: '',
+  friendReferralEmail: '',
 };
 
 function fileToDataUrl(file: File): Promise<string> {
@@ -60,7 +71,11 @@ export const RequestInvitation: React.FC = () => {
     const file = e.target.files?.[0];
     if (!file) return;
     if (!file.type.startsWith('image/')) {
-      setPhotoError('Please choose an image file.');
+      setPhotoError('Please choose a JPG, PNG, or WebP image file.');
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setPhotoError('That photo is larger than 5MB. Please choose a smaller file.');
       return;
     }
     setPhotoError('');
@@ -107,6 +122,14 @@ export const RequestInvitation: React.FC = () => {
           This short form helps Maya understand who is looking for meaningful connection in your area. It
           creates your permanent Maya Profile — no payment, no pressure.
         </p>
+
+        <div className="mt-6 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:gap-5">
+          {trustPoints.map((t) => (
+            <span key={t.text} className="flex items-center gap-2 text-sm font-medium text-ink/60">
+              <t.icon size={15} className="shrink-0 text-maya-amethyst" /> {t.text}
+            </span>
+          ))}
+        </div>
 
         <Card className="mt-10 p-6 sm:p-9">
           <form onSubmit={handleSubmit} className="grid gap-6 sm:grid-cols-2">
@@ -158,15 +181,30 @@ export const RequestInvitation: React.FC = () => {
                 ))}
               </Select>
             </Field>
-            <Field label="Cultural / religious background" required>
-              <Input required value={form.culturalBackground} onChange={(e) => set('culturalBackground', e.target.value)} placeholder="e.g. Punjabi, Hindu" />
+            <Field label="Your race / ethnicity" required>
+              <Input
+                required
+                value={form.raceEthnicity}
+                onChange={(e) => set('raceEthnicity', e.target.value)}
+                placeholder="e.g. South Asian (Punjabi)"
+              />
             </Field>
-            <Field label="How important is shared background?">
-              <Select value={form.culturalImportance} onChange={(e) => set('culturalImportance', e.target.value)}>
-                {['Very important', 'Important', 'Somewhat important', 'Not important'].map((v) => (
-                  <option key={v}>{v}</option>
-                ))}
-              </Select>
+            <Field label="Preferred race / ethnicity in a partner">
+              <Input
+                value={form.partnerRaceEthnicity}
+                onChange={(e) => set('partnerRaceEthnicity', e.target.value)}
+                placeholder="e.g. Open, or South Asian"
+              />
+            </Field>
+            <Field label="Your religion" required>
+              <Input required value={form.religion} onChange={(e) => set('religion', e.target.value)} placeholder="e.g. Hindu" />
+            </Field>
+            <Field label="Preferred religion in a partner">
+              <Input
+                value={form.partnerReligion}
+                onChange={(e) => set('partnerReligion', e.target.value)}
+                placeholder="e.g. Open, or Hindu"
+              />
             </Field>
             <Field label="Relationship status" required>
               <Select required value={form.relationshipStatus} onChange={(e) => set('relationshipStatus', e.target.value)}>
@@ -215,13 +253,15 @@ export const RequestInvitation: React.FC = () => {
                     {form.photoDataUrl ? 'Change photo' : 'Choose a photo'}
                     <input type="file" accept="image/*" className="hidden" onChange={handlePhotoChange} />
                   </label>
-                  <p className="mt-1.5 text-xs text-ink/40">Only Maya sees this — never shown publicly.</p>
+                  <p className="mt-1.5 text-xs text-ink/40">
+                    Only Maya sees this — never shown publicly. JPG, PNG, or WebP · maximum 5MB.
+                  </p>
                 </div>
               </div>
               {photoError && <p className="mt-2 text-xs font-medium text-maya-ruby">{photoError}</p>}
             </Field>
 
-            <Field label="Social network" required>
+            <Field label="Social platform" required>
               <Select
                 required
                 value={form.socialNetwork}
@@ -233,12 +273,16 @@ export const RequestInvitation: React.FC = () => {
                 ))}
               </Select>
             </Field>
-            <Field label="Your handle" required hint="so Maya can verify it's really you">
+            <Field
+              label="Profile handle or link"
+              required
+              hint="Never provide a password. This is used only for private review."
+            >
               <Input
                 required
                 value={form.socialHandle}
                 onChange={(e) => set('socialHandle', e.target.value)}
-                placeholder="@yourhandle"
+                placeholder="@yourname or profile URL"
               />
             </Field>
 
@@ -270,10 +314,48 @@ export const RequestInvitation: React.FC = () => {
             <Field label="How did you hear about us?">
               <Input value={form.referralSource} onChange={(e) => set('referralSource', e.target.value)} />
             </Field>
-            <div className="flex items-end sm:col-span-1">
+            <Field label="Referrer's name" hint="Did someone tell you about Maya Match?">
+              <Input
+                value={form.referrerName}
+                onChange={(e) => set('referrerName', e.target.value)}
+                placeholder="e.g. Priya Nair"
+              />
+            </Field>
+
+            <div className="sm:col-span-2">
               <CheckboxRow checked={form.mayaInsiderOptIn} onChange={(v) => set('mayaInsiderOptIn', v)}>
-                Keep me posted as a <strong>Maya Insider</strong> — launch updates &amp; regional news.
+                Send me Maya Match updates. <span className="font-normal text-ink/40">Optional. Unsubscribe at any time.</span>
               </CheckboxRow>
+            </div>
+
+            <div className="rounded-2xl border border-maya-gold/25 bg-maya-gold/5 p-5 sm:col-span-2">
+              <span className="flex items-center gap-2 text-sm font-semibold text-ink">
+                <Gift size={16} className="text-maya-gold" /> Refer a friend or family member
+              </span>
+              <p className="mt-1 text-xs text-ink/60">
+                Optional. Know someone Maya should meet? Tell us and we'll send them a personal invitation with
+                your name on it. Earn a $20 future credit — after you and your referral each complete an
+                eligible paid Maya Match service purchase valued over $200, you'll receive a $20 Maya Match
+                credit toward a future eligible purchase after verification. The credit is not cash back and
+                cannot be transferred.
+              </p>
+              <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                <Field label="Friend's name">
+                  <Input
+                    value={form.friendReferralName}
+                    onChange={(e) => set('friendReferralName', e.target.value)}
+                    placeholder="e.g. Rina Shah"
+                  />
+                </Field>
+                <Field label="Friend's email">
+                  <Input
+                    type="email"
+                    value={form.friendReferralEmail}
+                    onChange={(e) => set('friendReferralEmail', e.target.value)}
+                    placeholder="rina@example.com"
+                  />
+                </Field>
+              </div>
             </div>
 
             <div className="sm:col-span-2">

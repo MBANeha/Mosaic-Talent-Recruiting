@@ -77,7 +77,9 @@ export const Confirmation: React.FC = () => {
             Invite a single friend and help Maya build a stronger pool for everyone — including you.
           </p>
           <p className="mt-1 text-xs text-ink/40">
-            Earn a $20 Maya Match credit once they join and make a purchase over $200.
+            Earn a $20 future credit. After you and your referral each complete an eligible paid Maya Match
+            service purchase valued over $200, you'll receive a $20 Maya Match credit toward a future eligible
+            purchase after verification. The credit is not cash back and cannot be transferred.
           </p>
           <div className="mt-5 flex flex-col gap-3 sm:flex-row">
             <div className="flex-1 truncate rounded-xl border border-ink/10 bg-white px-4 py-3 font-mono text-sm text-ink/70">

@@ -109,10 +109,12 @@ export const Invite: React.FC = () => {
             <Gift size={20} />
           </span>
           <div>
-            <h3 className="font-display text-lg font-semibold text-ink">Earn Maya Match credit</h3>
+            <h3 className="font-display text-lg font-semibold text-ink">Earn a $20 future credit</h3>
             <p className="mt-1 text-sm text-ink/60">
-              If someone you refer is accepted and makes a Maya Match purchase valued over{' '}
-              <strong>$200</strong>, you'll receive a <strong>$20 credit</strong> toward future paid services.
+              After you and your referral each complete an eligible paid Maya Match service purchase valued
+              over <strong>$200</strong>, you'll receive a <strong>$20 Maya Match credit</strong> toward a
+              future eligible purchase after verification. The credit is not cash back and cannot be
+              transferred.
             </p>
           </div>
         </Card>

@@ -211,6 +211,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     requestInvitation(input) {
       const id = `member-${Date.now()}`;
       const region = db.regions.find((r) => r.name === input.nearestMetro) ?? db.regions[0];
+      const referralCode = randomCode(input.firstName + input.lastName);
       const newMember: Member = {
         id,
         createdAt: Date.now(),
@@ -229,15 +230,30 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         committedCredits: 0,
         totalCreditsGranted: 0,
         activeRequestLimit: 0,
-        referralCode: randomCode(input.firstName + input.lastName),
+        referralCode,
         referredCount: 0,
         referralCreditsEarned: 0,
         mayaAnswers: [],
       };
+      const friendName = input.friendReferralName.trim();
+      const friendEmail = input.friendReferralEmail.trim();
+      const referrerFullName = `${input.firstName} ${input.lastName}`.trim();
+      const friendInvite: ReferralInvite | null =
+        friendName && friendEmail
+          ? {
+              id: `refinv-${Date.now()}`,
+              memberId: id,
+              friendName,
+              friendEmail,
+              message: `Your friend, ${referrerFullName}, thought you'd be interested in our service. Here is your special invitation: www.mayamatch.com/request-invitation?ref=${referralCode}`,
+              sentAt: Date.now(),
+            }
+          : null;
       setDb((prev) => ({
         ...prev,
         members: [...prev.members, newMember],
         currentMemberId: id,
+        referralInvites: friendInvite ? [...prev.referralInvites, friendInvite] : prev.referralInvites,
       }));
       return id;
     },
@@ -567,18 +583,23 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         age: '34',
         gender: 'Woman',
         interestedIn: 'Men',
-        culturalBackground: 'Punjabi, Sikh',
-        culturalImportance: 'Important',
+        raceEthnicity: 'South Asian (Punjabi)',
+        partnerRaceEthnicity: 'South Asian',
+        religion: 'Sikh',
+        partnerReligion: 'Open',
         relationshipStatus: 'Single',
         childrenStatus: 'None, wants children',
         relationshipGoal: 'Marriage-minded',
         whyMaya: 'Ready for something intentional, curated by someone who actually reads the profile.',
         referralSource: 'Preview tool',
+        referrerName: '',
         mayaInsiderOptIn: true,
         photoDataUrl: '',
         socialNetwork: 'Instagram',
         socialHandle: '@preview.member',
         budgetInterest: ['Amethyst — $549–$629', 'Diamond — $749–$849'],
+        friendReferralName: '',
+        friendReferralEmail: '',
       };
 
       const matchProfile: MatchProfile = {

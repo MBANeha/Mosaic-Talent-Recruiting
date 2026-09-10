@@ -15,18 +15,18 @@ const steps = [
 const principles = [
   {
     icon: EyeOff,
-    title: 'No swiping through strangers',
-    desc: 'Maya curates a small, intentional pool — not an infinite feed of profiles.',
+    title: 'No endless texting',
+    desc: 'Skip weeks of messaging and meet through a private virtual first date.',
   },
   {
     icon: ShieldCheck,
-    title: 'No contact before you meet',
-    desc: 'Numbers and socials stay private until both of you choose to continue.',
+    title: 'Thoughtfully matched',
+    desc: 'Maya Match considers values, culture, geography, family goals, and lifestyle.',
   },
   {
     icon: Users,
-    title: 'Built pool by pool, region by region',
-    desc: "We launch a city only once there's real, reciprocal compatibility inside it.",
+    title: 'Mutual interest only',
+    desc: 'Both people share confidential feedback. Contact details are exchanged only if both are interested.',
   },
 ];
 
@@ -41,17 +41,27 @@ export const Landing: React.FC = () => {
           <div className="animate-fade-up mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-cream/90 backdrop-blur">
             <Sparkles size={13} /> Now accepting founding invitation requests
           </div>
-          <h1 className="animate-fade-up font-display text-4xl font-semibold leading-[1.08] text-cream sm:text-6xl" style={{ animationDelay: '80ms' }}>
-            Maya Match Dream Dates
+          <p
+            className="animate-fade-up text-xs font-bold uppercase tracking-[0.3em] text-maya-goldLight"
+            style={{ animationDelay: '40ms' }}
+          >
+            Maya Match · Dream Dates
+          </p>
+          <h1
+            className="animate-fade-up mt-3 font-display text-4xl font-semibold leading-[1.08] text-cream sm:text-6xl"
+            style={{ animationDelay: '80ms' }}
+          >
+            Your next great relationship could start <span className="italic font-medium text-maya-goldLight">differently.</span>
           </h1>
           <p className="animate-fade-up mx-auto mt-6 max-w-2xl text-lg text-cream/80 sm:text-xl" style={{ animationDelay: '160ms' }}>
             A private, curated dating community for Desi &amp; diverse professionals.
           </p>
-          <p className="animate-fade-up mx-auto mt-3 max-w-xl text-sm font-medium uppercase tracking-widest text-cream/50" style={{ animationDelay: '220ms' }}>
-            Primarily professionals 30–45 · Singles 25–50+ welcome
+          <p className="animate-fade-up mx-auto mt-4 max-w-xl text-sm leading-relaxed text-cream/60" style={{ animationDelay: '200ms' }}>
+            You don't need more matches. You need better opportunities to meet the right people. Maya Match
+            builds each local dating pool intentionally and reviews every registration.
           </p>
-          <p className="animate-fade-up mt-2 text-sm text-cream/60" style={{ animationDelay: '260ms' }}>
-            Launching region by region.
+          <p className="animate-fade-up mx-auto mt-4 max-w-xl text-sm font-medium uppercase tracking-widest text-cream/50" style={{ animationDelay: '220ms' }}>
+            Primarily professionals 30–45 · Singles 25–50+ welcome
           </p>
           <div className="animate-fade-up mt-10 flex flex-col items-center gap-4" style={{ animationDelay: '320ms' }}>
             <Link to="/request-invitation">
@@ -69,9 +79,10 @@ export const Landing: React.FC = () => {
       {/* Principles */}
       <section className="mx-auto max-w-6xl px-5 py-20 sm:px-8">
         <div className="text-center">
-          <Eyebrow>Not another app</Eyebrow>
+          <Eyebrow>The Maya Match Difference</Eyebrow>
           <h2 className="mt-3 font-display text-3xl font-semibold text-ink sm:text-4xl">
-            Curated the way great matchmaking used to feel
+            No DMs. No endless texting.
+            <br className="hidden sm:block" /> <span className="text-maya-amethystDark">Just a real first meeting.</span>
           </h2>
         </div>
         <div className="mt-12 grid gap-5 sm:grid-cols-3">

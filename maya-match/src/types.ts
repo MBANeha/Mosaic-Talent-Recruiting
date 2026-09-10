@@ -25,13 +25,17 @@ export interface InvitationInput {
   age: string;
   gender: string;
   interestedIn: string;
-  culturalBackground: string;
-  culturalImportance: string;
+  raceEthnicity: string;
+  partnerRaceEthnicity: string;
+  religion: string;
+  partnerReligion: string;
   relationshipStatus: string;
   childrenStatus: string;
   relationshipGoal: string;
   whyMaya: string;
   referralSource: string;
+  /** Who told them about Maya Match, if anyone — distinct from referralSource (how, vs. who). */
+  referrerName: string;
   mayaInsiderOptIn: boolean;
   referredByCode?: string;
   /** Data URL of the uploaded photo — required so Maya can review a real photo, not just a written profile. */
@@ -40,6 +44,9 @@ export interface InvitationInput {
   socialHandle: string;
   /** Which price ranges they'd consider, so Maya can gauge budget before pitching a tier. */
   budgetInterest: string[];
+  /** Optional: a friend or family member they'd like Maya to invite, captured during their own signup. */
+  friendReferralName: string;
+  friendReferralEmail: string;
 }
 
 export interface AboutMeSection {
