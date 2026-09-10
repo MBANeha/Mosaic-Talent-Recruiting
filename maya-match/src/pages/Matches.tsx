@@ -8,7 +8,7 @@ import { useStore } from '../data/store';
 
 const STAGES: { key: string; label: string }[] = [
   { key: 'MUTUAL_MATCH', label: 'Mutual Match' },
-  { key: 'CONTACT_EXCHANGED', label: 'Contact Exchanged' },
+  { key: 'CONTACT_EXCHANGED', label: 'Inbox Unlocked' },
   { key: 'SECOND_DATE', label: 'Second Date?' },
   { key: 'DATING', label: 'Dating' },
   { key: 'RELATIONSHIP', label: 'Relationship' },
@@ -68,11 +68,10 @@ export const Matches: React.FC = () => {
                 </div>
 
                 <div className="mt-5 flex flex-wrap items-center justify-between gap-3 rounded-xl bg-sand p-4">
-                  <div className="text-sm text-ink/70">
-                    <div>{pick.contactEmail}</div>
-                    <div>{pick.contactPhone}</div>
-                  </div>
-                  {stageIdx < STAGES.length - 1 && (
+                  <Link to={`/inbox/${d.id}`}>
+                    <Button size="sm">Open Maya Match Inbox 💬</Button>
+                  </Link>
+                  {stageIdx < STAGES.length - 1 && stageIdx >= 0 && (
                     <Button size="sm" variant="secondary" onClick={() => advanceJourney(d.id)}>
                       Mark: {STAGES[stageIdx + 1].label}
                     </Button>

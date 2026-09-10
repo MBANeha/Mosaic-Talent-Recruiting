@@ -16,6 +16,7 @@ import { Picks } from './pages/Picks';
 import { Dates } from './pages/Dates';
 import { Feedback } from './pages/Feedback';
 import { Matches } from './pages/Matches';
+import { MatchInbox } from './pages/MatchInbox';
 import { Invite } from './pages/Invite';
 
 import { AdminGate } from './pages/admin/AdminGate';
@@ -44,6 +45,7 @@ const App: React.FC = () => {
           <Route path="/dates" element={<Dates />} />
           <Route path="/dates/:dateId/feedback" element={<Feedback />} />
           <Route path="/matches" element={<Matches />} />
+          <Route path="/inbox/:dateId" element={<MatchInbox />} />
           <Route path="/invite" element={<Invite />} />
 
           <Route path="/admin" element={<AdminGate />} />

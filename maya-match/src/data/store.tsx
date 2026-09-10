@@ -10,8 +10,17 @@ import type {
   DateFeedback,
   MembershipTier,
   MigrationCandidate,
+  InboxMessage,
 } from '../types';
-import { REGIONS, PICKS, SEED_MEMBERS, MIGRATION_CANDIDATES, ADMIN_TODAY_BASE } from './seed';
+import {
+  REGIONS,
+  PICKS,
+  SEED_MEMBERS,
+  MIGRATION_CANDIDATES,
+  ADMIN_TODAY_BASE,
+  INBOX_OPENER_LINES,
+  INBOX_REPLY_LINES,
+} from './seed';
 
 const STORAGE_KEY = 'maya-dream-dates-db-v1';
 
@@ -22,12 +31,17 @@ interface DB {
   dateRequests: DreamDateRequest[];
   scheduledDates: ScheduledDate[];
   migrationCandidates: MigrationCandidate[];
+  messages: InboxMessage[];
 }
 
 function loadDB(): DB {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) return JSON.parse(raw) as DB;
+    if (raw) {
+      const parsed = JSON.parse(raw) as DB;
+      if (!parsed.messages) parsed.messages = [];
+      return parsed;
+    }
   } catch {
     // fall through to fresh seed
   }
@@ -38,7 +52,12 @@ function loadDB(): DB {
     dateRequests: [],
     scheduledDates: [],
     migrationCandidates: MIGRATION_CANDIDATES,
+    messages: [],
   };
+}
+
+function randomFrom<T>(items: T[]): T {
+  return items[Math.floor(Math.random() * items.length)];
 }
 
 const TIER_CREDITS: Record<MembershipTier, number> = {
@@ -116,6 +135,10 @@ interface StoreValue {
   memberById: (id: string) => Member | undefined;
   pickById: (id: string) => (typeof PICKS)[number] | undefined;
   advanceJourney: (dateId: string) => void;
+  ensureInboxOpened: (dateId: string) => void;
+  sendTextMessage: (dateId: string, text: string) => void;
+  sendAudioMessage: (dateId: string, audioDataUrl: string, durationSec: number) => void;
+  messagesForDate: (dateId: string) => InboxMessage[];
   advanceMigration: (id: string) => void;
   setMigrationDecision: (id: string, decision: MigrationCandidate['mayaDecision']) => void;
   adminToday: typeof ADMIN_TODAY_BASE;
@@ -146,6 +169,23 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         return { ...m, ...resolved };
       }),
     }));
+  }
+
+  function scheduleReply(dateId: string) {
+    const delay = 1300 + Math.random() * 1400;
+    setTimeout(() => {
+      setDb((prev) => {
+        const reply: InboxMessage = {
+          id: `msg-${Date.now()}-r`,
+          dateId,
+          sender: 'pick',
+          kind: 'text',
+          text: randomFrom(INBOX_REPLY_LINES),
+          createdAt: Date.now(),
+        };
+        return { ...prev, messages: [...prev.messages, reply] };
+      });
+    }, delay);
   }
 
   const value: StoreValue = {
@@ -369,6 +409,54 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       }));
     },
 
+    ensureInboxOpened(dateId) {
+      setDb((prev) => {
+        if (prev.messages.some((m) => m.dateId === dateId)) return prev;
+        const date = prev.scheduledDates.find((d) => d.id === dateId);
+        if (!date) return prev;
+        const opener: InboxMessage = {
+          id: `msg-${Date.now()}-open`,
+          dateId,
+          sender: 'pick',
+          kind: 'text',
+          text: randomFrom(INBOX_OPENER_LINES),
+          createdAt: Date.now(),
+        };
+        return { ...prev, messages: [...prev.messages, opener] };
+      });
+    },
+
+    sendTextMessage(dateId, text) {
+      const msg: InboxMessage = {
+        id: `msg-${Date.now()}`,
+        dateId,
+        sender: 'member',
+        kind: 'text',
+        text,
+        createdAt: Date.now(),
+      };
+      setDb((prev) => ({ ...prev, messages: [...prev.messages, msg] }));
+      scheduleReply(dateId);
+    },
+
+    sendAudioMessage(dateId, audioDataUrl, durationSec) {
+      const msg: InboxMessage = {
+        id: `msg-${Date.now()}`,
+        dateId,
+        sender: 'member',
+        kind: 'audio',
+        audioDataUrl,
+        audioDurationSec: durationSec,
+        createdAt: Date.now(),
+      };
+      setDb((prev) => ({ ...prev, messages: [...prev.messages, msg] }));
+      scheduleReply(dateId);
+    },
+
+    messagesForDate(dateId) {
+      return db.messages.filter((m) => m.dateId === dateId).sort((a, b) => a.createdAt - b.createdAt);
+    },
+
     advanceMigration(id) {
       const order: MigrationCandidate['status'][] = [
         'Not Yet Invited',
@@ -411,6 +499,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         dateRequests: [],
         scheduledDates: [],
         migrationCandidates: MIGRATION_CANDIDATES,
+        messages: [],
       });
     },
   };

@@ -195,6 +195,20 @@ export interface Region {
   growthRecommendation: string;
 }
 
+export type InboxMessageKind = 'text' | 'audio';
+export type InboxSender = 'member' | 'pick';
+
+export interface InboxMessage {
+  id: string;
+  dateId: string;
+  sender: InboxSender;
+  kind: InboxMessageKind;
+  text?: string;
+  audioDataUrl?: string;
+  audioDurationSec?: number;
+  createdAt: number;
+}
+
 export type MigrationDecision = 'INVITE_NOW' | 'UPDATE_PROFILE' | 'DONT_MIGRATE' | 'PENDING_REVIEW';
 export type MigrationStatus = 'Not Yet Invited' | 'Invited' | 'Opened' | 'Profile Updated' | 'Joined' | 'Sapphire' | 'VIP';
 

@@ -378,6 +378,23 @@ export const MIGRATION_CANDIDATES: MigrationCandidate[] = [
   },
 ];
 
+export const INBOX_OPENER_LINES = [
+  "Hi! Really glad Maya matched us 💜 Looking forward to getting to know you more here.",
+  "Hey, this is nice — no pressure, just glad we get to keep talking.",
+  "Hi there! Still smiling about our date. Excited Maya opened this up for us.",
+];
+
+export const INBOX_REPLY_LINES = [
+  "Haha I love that 😊",
+  "Okay wait, tell me more about that",
+  "This is exactly the kind of thing Maya said we'd click on",
+  "I'm smiling at my phone right now, not okay",
+  "Same!! When are you free again?",
+  "That's so funny, I was just thinking about that too",
+  "I like how you think about that",
+  "Okay you're making this very easy to talk to",
+];
+
 export const ADMIN_TODAY_BASE = {
   newInvitationRequests: 27,
   profilesCompleted: 14,

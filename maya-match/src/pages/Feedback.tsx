@@ -53,12 +53,14 @@ export const Feedback: React.FC = () => {
               <h1 className="font-display text-3xl font-semibold text-ink">It's Mutual 💜</h1>
               <p className="mt-3 text-ink/60">You both want to continue the conversation.</p>
               <Card className="mt-8 p-7 text-left">
-                <Eyebrow>{pick.firstName}'s contact information</Eyebrow>
-                <div className="mt-3 flex flex-col gap-1.5 text-sm text-ink">
-                  <span>{pick.contactEmail}</span>
-                  <span>{pick.contactPhone}</span>
-                </div>
-                <p className="mt-4 text-xs text-ink/40">Maya steps out from here — the rest is up to you.</p>
+                <Eyebrow>Maya Match Inbox unlocked</Eyebrow>
+                <p className="mt-2 text-sm leading-relaxed text-ink/60">
+                  No phone numbers exchanged yet — instead, Maya's opened a private inbox where you and{' '}
+                  {pick.firstName} can message and send voice notes back and forth, right here.
+                </p>
+                <Link to={`/inbox/${date.id}`} className="mt-5 block">
+                  <Button className="w-full">Open Maya Match Inbox 💬</Button>
+                </Link>
               </Card>
             </>
           ) : (
