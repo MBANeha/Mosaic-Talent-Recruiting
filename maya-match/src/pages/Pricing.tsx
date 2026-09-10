@@ -166,10 +166,6 @@ export const Pricing: React.FC = () => {
             </Card>
           ))}
         </div>
-
-        <p className="mt-10 text-center text-xs text-ink/35">
-          No 1-date or 5-date packages — Maya's curation model works best in sets of 3, 7, or 11.
-        </p>
       </section>
     </Page>
   );

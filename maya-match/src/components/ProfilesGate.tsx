@@ -18,7 +18,9 @@ export const ProfilesGate: React.FC<{ member: Member; children: React.ReactNode 
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
 
-  if (unlocked) return <>{children}</>;
+  // Admin-seeded preview accounts skip the lock entirely — there's no real person's privacy to
+  // protect, and the whole point is to browse these pages (often in a fresh tab) without friction.
+  if (unlocked || member.id.startsWith('preview-')) return <>{children}</>;
 
   const hasPassword = !!member.dreamDatesPassword;
 

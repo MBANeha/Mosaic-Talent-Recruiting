@@ -22,7 +22,9 @@ import {
   INBOX_OPENER_LINES,
   INBOX_REPLY_LINES,
   MAYA_ACK_LINES,
+  MAYA_QUESTIONS,
 } from './seed';
+import { markProfilesUnlocked } from './unlock';
 
 const STORAGE_KEY = 'maya-dream-dates-db-v1';
 
@@ -147,6 +149,7 @@ interface StoreValue {
   adminToday: typeof ADMIN_TODAY_BASE;
   reviewQueue: Member[];
   resetDemo: () => void;
+  seedPreviewMember: () => { memberId: string; mutualDateId: string; upcomingDateId: string; notMutualDateId: string };
 }
 
 const StoreContext = createContext<StoreValue | null>(null);
@@ -517,6 +520,291 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         migrationCandidates: MIGRATION_CANDIDATES,
         messages: [],
       });
+    },
+
+    seedPreviewMember() {
+      const id = `preview-${Date.now()}`;
+      const now = Date.now();
+      const day = 24 * 60 * 60 * 1000;
+
+      const invitation: InvitationInput = {
+        firstName: 'Preview',
+        lastName: 'Member',
+        email: 'preview@mayamatch.com',
+        city: 'New York',
+        state: 'NY',
+        nearestMetro: 'NYC Metro',
+        datingRadius: '25 miles',
+        age: '34',
+        gender: 'Woman',
+        interestedIn: 'Men',
+        culturalBackground: 'Punjabi, Sikh',
+        culturalImportance: 'Important',
+        relationshipStatus: 'Single',
+        childrenStatus: 'None, wants children',
+        relationshipGoal: 'Marriage-minded',
+        whyMaya: 'Ready for something intentional, curated by someone who actually reads the profile.',
+        referralSource: 'Preview tool',
+        mayaInsiderOptIn: true,
+      };
+
+      const matchProfile: MatchProfile = {
+        aboutMe: {
+          career: 'Product lead at a healthcare startup.',
+          education: 'MBA, NYU Stern',
+          lifestyle: 'Early mornings, weekend hikes, always mid-way through a nonfiction book.',
+          interests: 'Ceramics, trail running, hosting dinner parties',
+          personality: 'Warm but direct — says what she means.',
+          typicalWeekend: 'Farmers market, a long run, dinner with three close friends.',
+        },
+        myRelationship: {
+          relationshipHistory: 'One long relationship that ended amicably two years ago.',
+          timeSingle: 'About a year, dated casually in between.',
+          goals: 'Ready to date with real intention again.',
+          wantsMarriage: 'Yes',
+          wantsChildren: 'Yes, within the next few years',
+          familyValues: 'Close-knit, sees family most weekends.',
+          whatHasntWorked: 'Dating apps that reward volume over fit.',
+        },
+        myPerson: {
+          ageRangeMin: '32',
+          ageRangeMax: '42',
+          geography: 'NYC metro, open to North Jersey',
+          culturalPreference: 'South Asian preferred, open otherwise',
+          religiousPreference: 'Open',
+          careerEducationPreference: 'Driven in whatever they do',
+          lifestylePreference: 'Active, social but not a partier',
+          personalityPreference: 'Confident, funny, emotionally available',
+          familyGoalsPreference: 'Wants children',
+          dealbreakers: 'Not ready for commitment, inconsistent effort',
+          niceToHaves: 'Loves to cook, close with their family',
+        },
+        tellMaya: {
+          greatPartnerTraits: 'Deeply loyal and a genuinely great listener.',
+          currentlyWorkingOn: 'Being more patient with how long good things take.',
+          whatFriendsLove: 'That she remembers the small details.',
+          passions: 'Ceramics, mentoring young women in product',
+          whatPartnerShouldUnderstand: 'Work matters to her, but it will never come first.',
+          secondDateFactor: 'Easy conversation and genuine curiosity about my life.',
+          incomeRange: '$150k-$200k',
+          investmentPosture: 'Saves consistently, invests conservatively.',
+        },
+      };
+
+      const region = db.regions.find((r) => r.name === 'NYC Metro') ?? db.regions[0];
+
+      const previewMember: Member = {
+        id,
+        createdAt: now - 6 * day,
+        isDemoUser: true,
+        invitation,
+        matchProfile,
+        profileCompletion: 100,
+        region: region.name,
+        poolStatus: 'ACTIVE',
+        reviewStatus: 'INVITED',
+        aiRecommendation: 'STRONG_FIT',
+        reviewSubmittedAt: now - 5 * day,
+        reviewDecidedAt: now - 4 * day,
+        membershipTier: 'DIAMOND',
+        membershipActive: true,
+        consultationRequired: true,
+        consultationPaid: true,
+        dreamDatesCredits: 8,
+        committedCredits: 2,
+        totalCreditsGranted: 11,
+        activeRequestLimit: 3,
+        referralCode: 'PREVIEW01',
+        referredCount: 3,
+        referralCreditsEarned: 60,
+        dreamDatesPassword: 'preview',
+        mayaAnswers: [
+          {
+            id: MAYA_QUESTIONS[0].id,
+            question: MAYA_QUESTIONS[0].question,
+            answer: 'When they remember something small I mentioned weeks ago.',
+            ack: randomFrom(MAYA_ACK_LINES),
+            askedAt: now - 3 * day,
+            answeredAt: now - 3 * day,
+          },
+          {
+            id: MAYA_QUESTIONS[1].id,
+            question: MAYA_QUESTIONS[1].question,
+            answer: 'Farmers market, a long run, then cooking for friends.',
+            ack: randomFrom(MAYA_ACK_LINES),
+            askedAt: now - 2 * day,
+            answeredAt: now - 2 * day,
+          },
+        ],
+      };
+
+      const req1: DreamDateRequest = {
+        id: `preview-req-1-${now}`,
+        memberId: id,
+        pickId: 'pick-2',
+        status: 'ACCEPTED',
+        createdAt: now - 2 * day,
+        expiresAt: now - 2 * day + 48 * 60 * 60 * 1000,
+        resolvedAt: now - 2 * day + 60 * 60 * 1000,
+      };
+      const upcomingDate: ScheduledDate = {
+        id: `preview-date-upcoming-${now}`,
+        requestId: req1.id,
+        memberId: id,
+        pickId: 'pick-2',
+        status: 'SCHEDULED',
+        scheduledFor: 'Sat 11:00 AM ET',
+        createdAt: now - 1 * day,
+      };
+
+      const req2: DreamDateRequest = {
+        id: `preview-req-2-${now}`,
+        memberId: id,
+        pickId: 'pick-1',
+        status: 'ACCEPTED',
+        createdAt: now - 5 * day,
+        expiresAt: now - 5 * day + 48 * 60 * 60 * 1000,
+        resolvedAt: now - 5 * day + 60 * 60 * 1000,
+      };
+      const memberFeedback2: DateFeedback = {
+        wantsToSeeAgain: 'YES',
+        chemistry: 5,
+        conversation: 5,
+        values: 4,
+        lifestyle: 4,
+        attraction: 4,
+        whatWorked: 'Conversation just flowed — talked the full 30 minutes without noticing the time.',
+        whatDidnt: '',
+        anythingElse: '',
+        consentToExchange: true,
+        submittedAt: now - 4 * day,
+      };
+      const pickFeedback2: DateFeedback = {
+        wantsToSeeAgain: 'YES',
+        chemistry: 4,
+        conversation: 5,
+        values: 4,
+        lifestyle: 4,
+        attraction: 4,
+        whatWorked: 'Easy conversation, aligned values.',
+        whatDidnt: '',
+        anythingElse: '',
+        consentToExchange: true,
+        submittedAt: now - 4 * day,
+      };
+      const mutualDate: ScheduledDate = {
+        id: `preview-date-mutual-${now}`,
+        requestId: req2.id,
+        memberId: id,
+        pickId: 'pick-1',
+        status: 'COMPLETED',
+        scheduledFor: 'Thu 7:00 PM ET',
+        createdAt: now - 4.5 * day,
+        memberFeedback: memberFeedback2,
+        pickFeedback: pickFeedback2,
+        mutual: true,
+        contactExchanged: true,
+        journeyStage: 'CONTACT_EXCHANGED',
+      };
+
+      const req3: DreamDateRequest = {
+        id: `preview-req-3-${now}`,
+        memberId: id,
+        pickId: 'pick-3',
+        status: 'ACCEPTED',
+        createdAt: now - 6 * day,
+        expiresAt: now - 6 * day + 48 * 60 * 60 * 1000,
+        resolvedAt: now - 6 * day + 60 * 60 * 1000,
+      };
+      const memberFeedback3: DateFeedback = {
+        wantsToSeeAgain: 'MAYBE',
+        chemistry: 3,
+        conversation: 3,
+        values: 3,
+        lifestyle: 3,
+        attraction: 2,
+        whatWorked: 'Pleasant conversation.',
+        whatDidnt: "Didn't feel much spark.",
+        anythingElse: '',
+        consentToExchange: true,
+        submittedAt: now - 5.5 * day,
+      };
+      const pickFeedback3: DateFeedback = {
+        wantsToSeeAgain: 'NOT_FOR_ME',
+        chemistry: 2,
+        conversation: 3,
+        values: 2,
+        lifestyle: 3,
+        attraction: 2,
+        whatWorked: 'Pleasant, but not a fit.',
+        whatDidnt: '',
+        anythingElse: '',
+        consentToExchange: false,
+        submittedAt: now - 5.5 * day,
+      };
+      const notMutualDate: ScheduledDate = {
+        id: `preview-date-notmutual-${now}`,
+        requestId: req3.id,
+        memberId: id,
+        pickId: 'pick-3',
+        status: 'COMPLETED',
+        scheduledFor: 'Sun 4:00 PM ET',
+        createdAt: now - 5.8 * day,
+        memberFeedback: memberFeedback3,
+        pickFeedback: pickFeedback3,
+        mutual: false,
+        contactExchanged: false,
+      };
+
+      const inboxMessages: InboxMessage[] = [
+        {
+          id: `preview-msg-1-${now}`,
+          dateId: mutualDate.id,
+          sender: 'pick',
+          kind: 'text',
+          text: 'Hi! Really glad Maya matched us 💜 Looking forward to getting to know you more here.',
+          createdAt: now - 4 * day,
+        },
+        {
+          id: `preview-msg-2-${now}`,
+          dateId: mutualDate.id,
+          sender: 'member',
+          kind: 'text',
+          text: 'Same! That was such an easy conversation.',
+          createdAt: now - 4 * day + 5 * 60 * 1000,
+        },
+        {
+          id: `preview-msg-3-${now}`,
+          dateId: mutualDate.id,
+          sender: 'pick',
+          kind: 'text',
+          text: 'When are you free again?',
+          createdAt: now - 4 * day + 10 * 60 * 1000,
+        },
+      ];
+
+      setDb((prev) => ({
+        ...prev,
+        members: [...prev.members.filter((m) => !m.id.startsWith('preview-')), previewMember],
+        currentMemberId: id,
+        dateRequests: [...prev.dateRequests.filter((r) => !r.id.startsWith('preview-')), req1, req2, req3],
+        scheduledDates: [
+          ...prev.scheduledDates.filter((d) => !d.id.startsWith('preview-')),
+          upcomingDate,
+          mutualDate,
+          notMutualDate,
+        ],
+        messages: [...prev.messages.filter((msg) => !msg.id.startsWith('preview-')), ...inboxMessages],
+      }));
+
+      markProfilesUnlocked(id);
+
+      return {
+        memberId: id,
+        mutualDateId: mutualDate.id,
+        upcomingDateId: upcomingDate.id,
+        notMutualDateId: notMutualDate.id,
+      };
     },
   };
 

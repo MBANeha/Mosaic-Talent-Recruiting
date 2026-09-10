@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { Sparkles, LayoutDashboard, Map, ClipboardList, Users2, Image, LogOut } from 'lucide-react';
+import { Sparkles, LayoutDashboard, Map, ClipboardList, Users2, Image, Eye, LogOut } from 'lucide-react';
 import { isAdminUnlocked, clearAdminUnlocked } from '../data/adminAuth';
 
 const items = [
   { to: '/admin/today', label: 'Maya Today', icon: LayoutDashboard },
   { to: '/admin/review', label: 'Review Queue', icon: ClipboardList },
+  { to: '/admin/preview', label: 'Preview Pages', icon: Eye },
   { to: '/admin/profiles', label: 'Dream Dates Roster', icon: Image },
   { to: '/admin/regions', label: 'Regional Pool Engine', icon: Map },
   { to: '/admin/migration', label: 'Free Dates Migration', icon: Users2 },

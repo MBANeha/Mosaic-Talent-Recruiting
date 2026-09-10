@@ -22,6 +22,7 @@ import { Invite } from './pages/Invite';
 import { AdminGate } from './pages/admin/AdminGate';
 import { AdminToday } from './pages/admin/AdminToday';
 import { AdminReview } from './pages/admin/AdminReview';
+import { AdminPreview } from './pages/admin/AdminPreview';
 import { AdminProfiles } from './pages/admin/AdminProfiles';
 import { AdminRegions } from './pages/admin/AdminRegions';
 import { AdminMigration } from './pages/admin/AdminMigration';
@@ -51,6 +52,7 @@ const App: React.FC = () => {
           <Route path="/admin" element={<AdminGate />} />
           <Route path="/admin/today" element={<AdminToday />} />
           <Route path="/admin/review" element={<AdminReview />} />
+          <Route path="/admin/preview" element={<AdminPreview />} />
           <Route path="/admin/profiles" element={<AdminProfiles />} />
           <Route path="/admin/regions" element={<AdminRegions />} />
           <Route path="/admin/migration" element={<AdminMigration />} />
