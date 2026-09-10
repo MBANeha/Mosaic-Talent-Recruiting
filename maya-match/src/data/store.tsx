@@ -106,6 +106,7 @@ interface StoreValue {
   adminDecide: (memberId: string, decision: 'INVITED' | 'BUILDING_POOL' | 'NOT_FIT', note?: string) => void;
   purchaseMembership: (memberId: string, tier: MembershipTier) => void;
   payConsultation: (memberId: string) => void;
+  setDreamDatesPassword: (memberId: string, password: string) => void;
   requestDreamDate: (memberId: string, pickId: string) => DreamDateRequest | null;
   resolveRequest: (requestId: string) => void;
   scheduleDate: (requestId: string, slotLabel: string) => void;
@@ -233,6 +234,10 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     payConsultation(memberId) {
       updateMember(memberId, { consultationPaid: true });
+    },
+
+    setDreamDatesPassword(memberId, password) {
+      updateMember(memberId, { dreamDatesPassword: password });
     },
 
     requestDreamDate(memberId, pickId) {

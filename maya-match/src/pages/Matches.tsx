@@ -2,6 +2,8 @@ import React from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { Page } from '../components/Layout';
 import { Button, Card, Eyebrow, Pill } from '../components/ui';
+import { PickPhoto } from '../components/PickPhoto';
+import { ProfilesGate } from '../components/ProfilesGate';
 import { useStore } from '../data/store';
 
 const STAGES: { key: string; label: string }[] = [
@@ -20,9 +22,11 @@ export const Matches: React.FC = () => {
 
   return (
     <Page>
+      <ProfilesGate member={currentMember}>
       <section className="mx-auto max-w-3xl px-5 py-14 sm:px-8">
         <Eyebrow>Where connections become conversations</Eyebrow>
         <h1 className="mt-2 font-display text-3xl font-semibold text-ink sm:text-4xl">Mutual Matches</h1>
+        <p className="mt-1 text-xs text-ink/40">Photos unblur once a match is mutual — Maya confirms it's really them.</p>
 
         {matches.length === 0 && (
           <Card className="mt-8 p-8 text-center text-ink/60">
@@ -45,9 +49,7 @@ export const Matches: React.FC = () => {
                     <Pill tone="ruby" dot>💜 It's Mutual</Pill>
                     <h3 className="mt-2 font-display text-xl font-semibold text-ink">You &amp; {pick.firstName}</h3>
                   </div>
-                  <div className={`h-12 w-12 rounded-full bg-gradient-to-br ${pick.photoGradient} flex items-center justify-center font-display text-lg font-semibold text-white`}>
-                    {pick.firstName[0]}
-                  </div>
+                  <PickPhoto pick={pick} blurred={false} variant="circle" />
                 </div>
 
                 <div className="mt-5 flex flex-wrap items-center gap-2">
@@ -81,6 +83,7 @@ export const Matches: React.FC = () => {
           })}
         </div>
       </section>
+      </ProfilesGate>
     </Page>
   );
 };

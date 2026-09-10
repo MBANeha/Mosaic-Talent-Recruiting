@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import { Page } from '../components/Layout';
 import { Button, Card, Eyebrow, Textarea, CheckboxRow } from '../components/ui';
+import { PickPhoto } from '../components/PickPhoto';
+import { ProfilesGate } from '../components/ProfilesGate';
 import { useStore } from '../data/store';
 
 const RATING_LABELS = ['Chemistry', 'Conversation', 'Values', 'Lifestyle compatibility', 'Attraction'] as const;
@@ -41,13 +43,14 @@ export const Feedback: React.FC = () => {
     const mutual = date.mutual;
     return (
       <Page>
+        <ProfilesGate member={currentMember}>
         <section className="mx-auto max-w-xl px-5 py-20 text-center sm:px-8">
           {mutual ? (
             <>
-              <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-maya-amethyst to-maya-ruby text-3xl">
-                💜
+              <div className="mx-auto mb-5 flex justify-center">
+                <PickPhoto pick={pick} blurred={false} variant="circle" className="h-20 w-20" />
               </div>
-              <h1 className="font-display text-3xl font-semibold text-ink">It's Mutual</h1>
+              <h1 className="font-display text-3xl font-semibold text-ink">It's Mutual 💜</h1>
               <p className="mt-3 text-ink/60">You both want to continue the conversation.</p>
               <Card className="mt-8 p-7 text-left">
                 <Eyebrow>{pick.firstName}'s contact information</Eyebrow>
@@ -60,8 +63,8 @@ export const Feedback: React.FC = () => {
             </>
           ) : (
             <>
-              <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-ink/8 text-3xl">
-                🤍
+              <div className="mx-auto mb-5 flex justify-center">
+                <PickPhoto pick={pick} blurred variant="circle" className="h-20 w-20" />
               </div>
               <h1 className="font-display text-3xl font-semibold text-ink">No mutual connection this time.</h1>
               <p className="mx-auto mt-3 max-w-sm text-ink/60">
@@ -73,6 +76,7 @@ export const Feedback: React.FC = () => {
             <Button size="lg">Back to My Maya Picks</Button>
           </Link>
         </section>
+        </ProfilesGate>
       </Page>
     );
   }
@@ -98,10 +102,14 @@ export const Feedback: React.FC = () => {
 
   return (
     <Page>
+      <ProfilesGate member={currentMember}>
       <section className="mx-auto max-w-2xl px-5 py-14 sm:px-8">
         <Eyebrow>Private &amp; only visible to Maya</Eyebrow>
         <h1 className="mt-2 font-display text-3xl font-semibold text-ink sm:text-4xl">How Was Your Dream Date?</h1>
-        <p className="mt-2 text-ink/60">Your date with {pick.firstName}.</p>
+        <div className="mt-3 flex items-center gap-3">
+          <PickPhoto pick={pick} blurred variant="circle" />
+          <p className="text-ink/60">Your date with {pick.firstName}.</p>
+        </div>
 
         <form onSubmit={handleSubmit}>
           <Card className="mt-8 p-7">
@@ -176,6 +184,7 @@ export const Feedback: React.FC = () => {
           </Button>
         </form>
       </section>
+      </ProfilesGate>
     </Page>
   );
 };

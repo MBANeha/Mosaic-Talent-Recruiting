@@ -112,6 +112,8 @@ export interface Member {
   referralCode: string;
   referredCount: number;
   referralCreditsEarned: number;
+  /** Private password gating access to this member's curated profiles (Dream Dates picks). Demo-only, stored client-side. */
+  dreamDatesPassword?: string;
   freeDatesAlumni?: boolean;
 }
 

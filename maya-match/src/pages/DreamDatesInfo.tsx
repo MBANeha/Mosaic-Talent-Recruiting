@@ -64,6 +64,7 @@ export const DreamDatesInfo: React.FC = () => (
               'A private 30-minute virtual Dream Date when you both agree to meet',
               'Structured, private feedback that helps Maya learn your preferences',
               'Contact exchanged only after a mutual yes',
+              'Every photo stays face-blurred behind your own password until Maya confirms a mutual match',
             ].map((n) => (
               <li key={n} className="flex items-start gap-3 text-sm text-ink/60">
                 <Check size={16} className="mt-0.5 shrink-0 text-maya-emerald" /> {n}

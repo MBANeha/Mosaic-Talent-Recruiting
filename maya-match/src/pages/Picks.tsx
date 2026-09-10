@@ -3,6 +3,8 @@ import { Link, Navigate } from 'react-router-dom';
 import { Heart, X, GraduationCap, Briefcase, MapPin, Sparkles } from 'lucide-react';
 import { Page } from '../components/Layout';
 import { Button, Card, Eyebrow, Pill } from '../components/ui';
+import { PickPhoto } from '../components/PickPhoto';
+import { ProfilesGate } from '../components/ProfilesGate';
 import { useStore } from '../data/store';
 import type { PickCandidate } from '../types';
 
@@ -26,9 +28,7 @@ function PickCard({ pick }: { pick: PickCandidate }) {
 
   return (
     <Card className="flex flex-col overflow-hidden">
-      <div className={`h-32 bg-gradient-to-br ${pick.photoGradient} flex items-end p-5`}>
-        <span className="font-display text-4xl font-semibold text-white/95">{pick.firstName[0]}</span>
-      </div>
+      <PickPhoto pick={pick} blurred />
       <div className="flex flex-1 flex-col p-6">
         <div className="flex items-baseline justify-between">
           <h3 className="font-display text-xl font-semibold text-ink">
@@ -103,23 +103,29 @@ export const Picks: React.FC = () => {
 
   return (
     <Page>
-      <section className="mx-auto max-w-6xl px-5 py-14 sm:px-8">
-        <Eyebrow>Curated for you</Eyebrow>
-        <h1 className="mt-2 font-display text-3xl font-semibold text-ink sm:text-4xl">Your Maya Picks</h1>
-        <p className="mt-2 text-ink/60">
-          {picks.length} promising {picks.length === 1 ? 'person' : 'people'} this week — chosen personally,
-          not algorithmically browsed.
-        </p>
-        <div className="mt-4 flex items-center gap-2 text-sm font-semibold text-maya-amethyst">
-          <Heart size={16} /> {currentMember.dreamDatesCredits} Dream Date {currentMember.dreamDatesCredits === 1 ? 'credit' : 'credits'} available
-        </div>
+      <ProfilesGate member={currentMember}>
+        <section className="mx-auto max-w-6xl px-5 py-14 sm:px-8">
+          <Eyebrow>Curated for you</Eyebrow>
+          <h1 className="mt-2 font-display text-3xl font-semibold text-ink sm:text-4xl">Your Maya Picks</h1>
+          <p className="mt-2 text-ink/60">
+            {picks.length} promising {picks.length === 1 ? 'person' : 'people'} this week — chosen personally,
+            not algorithmically browsed.
+          </p>
+          <p className="mt-1 flex items-center gap-1.5 text-xs text-ink/40">
+            <Sparkles size={12} /> Faces stay blurred until you and Maya are both sure — this is your
+            password-protected view.
+          </p>
+          <div className="mt-4 flex items-center gap-2 text-sm font-semibold text-maya-amethyst">
+            <Heart size={16} /> {currentMember.dreamDatesCredits} Dream Date {currentMember.dreamDatesCredits === 1 ? 'credit' : 'credits'} available
+          </div>
 
-        <div className="mt-9 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {picks.map((p) => (
-            <PickCard key={p.id} pick={p} />
-          ))}
-        </div>
-      </section>
+          <div className="mt-9 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {picks.map((p) => (
+              <PickCard key={p.id} pick={p} />
+            ))}
+          </div>
+        </section>
+      </ProfilesGate>
     </Page>
   );
 };
