@@ -42,7 +42,7 @@ export const Landing: React.FC = () => {
             <Sparkles size={13} /> Now accepting founding invitation requests
           </div>
           <h1 className="animate-fade-up font-display text-4xl font-semibold leading-[1.08] text-cream sm:text-6xl" style={{ animationDelay: '80ms' }}>
-            Maya Dream Dates
+            Maya Match Dream Dates
           </h1>
           <p className="animate-fade-up mx-auto mt-6 max-w-2xl text-lg text-cream/80 sm:text-xl" style={{ animationDelay: '160ms' }}>
             A private, curated dating community for Desi &amp; diverse professionals.

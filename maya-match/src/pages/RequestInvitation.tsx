@@ -51,7 +51,7 @@ export const RequestInvitation: React.FC = () => {
       <section className="mx-auto max-w-3xl px-5 py-16 sm:px-8">
         {ref && (
           <div className="mb-6 rounded-2xl border border-maya-amethyst/20 bg-maya-amethyst/5 px-5 py-3 text-sm font-medium text-maya-amethystDark">
-            You were invited by a Maya member — referral code {ref}.
+            You were invited by a Maya Match member — referral code {ref}.
           </div>
         )}
         <Eyebrow>Step 1 of your Maya journey</Eyebrow>

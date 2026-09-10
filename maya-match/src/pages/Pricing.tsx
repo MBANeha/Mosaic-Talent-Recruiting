@@ -34,7 +34,7 @@ const TIERS: Tier[] = [
       'Select event invitations',
       'Ability to upgrade to Dream Dates',
     ],
-    cta: 'Join Maya',
+    cta: 'Join Maya Match',
     requiresConsultation: false,
     accent: 'from-maya-amethyst to-maya-amethystDark',
   },
@@ -115,7 +115,7 @@ export const Pricing: React.FC = () => {
           <Eyebrow>Membership &amp; Dream Dates</Eyebrow>
           <h1 className="mt-2 font-display text-3xl font-semibold text-ink sm:text-4xl">Choose your plan</h1>
           <p className="mx-auto mt-3 max-w-xl text-ink/60">
-            Every plan includes full Maya community membership. Dream Dates packages add curated
+            Every plan includes full Maya Match community membership. Dream Dates packages add curated
             introductions on top.
           </p>
         </div>

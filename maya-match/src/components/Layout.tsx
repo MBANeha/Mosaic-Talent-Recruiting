@@ -10,7 +10,7 @@ const Logo: React.FC<{ dark?: boolean }> = ({ dark }) => (
       <Sparkles size={16} strokeWidth={2.5} />
     </span>
     <span className={`font-display text-lg font-semibold tracking-tight ${dark ? 'text-cream' : 'text-ink'}`}>
-      Maya <span className="italic font-medium">Dream Dates</span>
+      Maya Match <span className="italic font-medium">Dream Dates</span>
     </span>
   </Link>
 );
@@ -99,7 +99,7 @@ export const Footer: React.FC = () => (
             <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-maya-amethyst via-maya-sapphire to-maya-ruby">
               <Sparkles size={14} className="text-white" />
             </span>
-            <span className="font-display text-base font-semibold text-cream">Maya Dream Dates</span>
+            <span className="font-display text-base font-semibold text-cream">Maya Match Dream Dates</span>
           </div>
           <p className="mt-3 max-w-xs text-sm leading-relaxed">
             A private, curated dating community for Desi &amp; diverse professionals. Launching region by region.
@@ -107,7 +107,7 @@ export const Footer: React.FC = () => (
         </div>
         <div className="grid grid-cols-2 gap-10 text-sm sm:grid-cols-3">
           <div className="flex flex-col gap-2">
-            <span className="font-semibold text-cream/90">Maya</span>
+            <span className="font-semibold text-cream/90">Maya Match</span>
             <Link to="/dream-dates" className="hover:text-cream">How Dream Dates Work</Link>
             <Link to="/pricing" className="hover:text-cream">Membership</Link>
             <Link to="/request-invitation" className="hover:text-cream">Request an Invitation</Link>
@@ -118,7 +118,7 @@ export const Footer: React.FC = () => (
             <Link to="/invite" className="hover:text-cream">Invite a Friend</Link>
           </div>
           <div className="flex flex-col gap-2">
-            <span className="font-semibold text-cream/90">Maya Team</span>
+            <span className="font-semibold text-cream/90">Maya Match Team</span>
             <Link to="/admin" className="hover:text-cream">Matchmaker Sign In</Link>
           </div>
         </div>

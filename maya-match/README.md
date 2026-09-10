@@ -1,4 +1,4 @@
-# Maya Dream Dates
+# Maya Match Dream Dates
 
 A standalone prototype of the Maya Match "Dream Dates" launch product — built as a self-contained
 sub-app inside this repository, independent from the Mosaic Talent Recruiting codebase alongside it.

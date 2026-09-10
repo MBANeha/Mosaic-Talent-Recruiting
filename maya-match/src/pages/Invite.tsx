@@ -44,10 +44,10 @@ export const Invite: React.FC = () => {
             <Gift size={20} />
           </span>
           <div>
-            <h3 className="font-display text-lg font-semibold text-ink">Earn Maya credit</h3>
+            <h3 className="font-display text-lg font-semibold text-ink">Earn Maya Match credit</h3>
             <p className="mt-1 text-sm text-ink/60">
-              If someone you refer is accepted and purchases a qualifying Maya service, you'll receive a{' '}
-              <strong>$20 Maya credit</strong>.
+              If someone you refer is accepted and purchases a qualifying Maya Match service, you'll receive a{' '}
+              <strong>$20 Maya Match credit</strong>.
             </p>
           </div>
         </Card>

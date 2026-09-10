@@ -21,7 +21,7 @@ export const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children 
               <Sparkles size={16} className="text-white" />
             </span>
             <div className="leading-tight">
-              <div className="font-display text-sm font-semibold">Maya</div>
+              <div className="font-display text-sm font-semibold">Maya Match</div>
               <div className="text-[11px] uppercase tracking-widest text-cream/40">Matchmaker Console</div>
             </div>
           </Link>
@@ -53,7 +53,7 @@ export const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children 
               <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-maya-amethyst via-maya-sapphire to-maya-ruby">
                 <Sparkles size={14} className="text-white" />
               </span>
-              <span className="font-display text-sm font-semibold">Maya Console</span>
+              <span className="font-display text-sm font-semibold">Maya Match Console</span>
             </Link>
             <Link to="/" className="text-xs text-cream/50">Exit</Link>
           </header>
