@@ -4,6 +4,8 @@ import { ArrowRight, ShieldCheck, EyeOff, Users, Sparkles } from 'lucide-react';
 import { Page } from '../components/Layout';
 import { Button, Card, Eyebrow } from '../components/ui';
 
+const heroBeats = ['Meet', 'Reflect', 'Decide', 'Connect'];
+
 const steps = [
   { label: 'JOIN', desc: 'Become part of a screened community of intentional singles.' },
   { label: 'GET CURATED', desc: 'Maya identifies promising people based on your goals, geography, and preferences.' },
@@ -38,41 +40,59 @@ export const Landing: React.FC = () => {
       <section className="relative overflow-hidden bg-ink">
         <div className="absolute inset-0 bg-jewel-mesh opacity-90" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-ink/10 to-ink" />
-        <div className="relative mx-auto max-w-5xl px-5 py-24 text-center sm:px-8 sm:py-32">
-          <div className="animate-fade-up mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-cream/90 backdrop-blur">
-            <Sparkles size={13} /> Now accepting founding invitation requests
+        <div className="relative mx-auto grid max-w-6xl gap-12 px-5 py-20 sm:px-8 sm:py-28 lg:grid-cols-2 lg:items-center lg:gap-10">
+          <div className="text-center lg:text-left">
+            <p
+              className="animate-fade-up flex items-center justify-center gap-2 text-xs font-bold uppercase tracking-[0.3em] text-maya-goldLight lg:justify-start"
+              style={{ animationDelay: '40ms' }}
+            >
+              <Sparkles size={13} /> Maya Match · Dream Dates
+            </p>
+            <h1
+              className="animate-fade-up mt-3 font-display text-4xl font-semibold leading-[1.08] text-cream sm:text-6xl"
+              style={{ animationDelay: '80ms' }}
+            >
+              Your next great relationship could start <span className="italic font-medium text-maya-goldLight">differently.</span>
+            </h1>
+            <p className="animate-fade-up mx-auto mt-6 max-w-2xl text-lg text-cream/80 sm:text-xl lg:mx-0" style={{ animationDelay: '160ms' }}>
+              A private, curated dating community for Desi &amp; diverse professionals.
+            </p>
+            <p className="animate-fade-up mx-auto mt-4 max-w-xl text-sm leading-relaxed text-cream/60 lg:mx-0" style={{ animationDelay: '200ms' }}>
+              You don't need more matches. You need better opportunities to meet the right people. Maya Match
+              builds each local dating pool intentionally and reviews every registration.
+            </p>
+            <p
+              className="animate-fade-up mx-auto mt-4 max-w-xl text-sm font-medium uppercase tracking-widest text-cream/50 lg:mx-0"
+              style={{ animationDelay: '220ms' }}
+            >
+              Primarily professionals 30–45 · Singles 25–50+ welcome
+            </p>
+            <div className="animate-fade-up mt-10 flex flex-col items-center gap-4 lg:items-start" style={{ animationDelay: '320ms' }}>
+              <Link to="/request-invitation">
+                <Button size="lg" className="shadow-2xl">
+                  Request Your Invitation <ArrowRight size={18} />
+                </Button>
+              </Link>
+              <Link to="/dream-dates" className="text-sm font-medium text-cream/60 underline-offset-4 hover:text-cream hover:underline">
+                See how Dream Dates works
+              </Link>
+            </div>
           </div>
-          <p
-            className="animate-fade-up text-xs font-bold uppercase tracking-[0.3em] text-maya-goldLight"
-            style={{ animationDelay: '40ms' }}
-          >
-            Maya Match · Dream Dates
-          </p>
-          <h1
-            className="animate-fade-up mt-3 font-display text-4xl font-semibold leading-[1.08] text-cream sm:text-6xl"
-            style={{ animationDelay: '80ms' }}
-          >
-            Your next great relationship could start <span className="italic font-medium text-maya-goldLight">differently.</span>
-          </h1>
-          <p className="animate-fade-up mx-auto mt-6 max-w-2xl text-lg text-cream/80 sm:text-xl" style={{ animationDelay: '160ms' }}>
-            A private, curated dating community for Desi &amp; diverse professionals.
-          </p>
-          <p className="animate-fade-up mx-auto mt-4 max-w-xl text-sm leading-relaxed text-cream/60" style={{ animationDelay: '200ms' }}>
-            You don't need more matches. You need better opportunities to meet the right people. Maya Match
-            builds each local dating pool intentionally and reviews every registration.
-          </p>
-          <p className="animate-fade-up mx-auto mt-4 max-w-xl text-sm font-medium uppercase tracking-widest text-cream/50" style={{ animationDelay: '220ms' }}>
-            Primarily professionals 30–45 · Singles 25–50+ welcome
-          </p>
-          <div className="animate-fade-up mt-10 flex flex-col items-center gap-4" style={{ animationDelay: '320ms' }}>
-            <Link to="/request-invitation">
-              <Button size="lg" className="shadow-2xl">
-                Request Your Invitation <ArrowRight size={18} />
-              </Button>
-            </Link>
-            <Link to="/dream-dates" className="text-sm font-medium text-cream/60 underline-offset-4 hover:text-cream hover:underline">
-              See how Dream Dates works
-            </Link>
+
+          <div className="animate-fade-up relative mx-auto w-full max-w-md lg:max-w-none" style={{ animationDelay: '260ms' }}>
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] border border-white/15 shadow-2xl">
+              <div className="absolute inset-0 bg-jewel-mesh" />
+              <div className="absolute inset-0 bg-gradient-to-br from-maya-amethyst/80 via-plum/70 to-maya-ruby/80" />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-transparent to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 p-6">
+                <p className="font-display text-xl italic text-cream sm:text-2xl">
+                  {heroBeats.join('. ')}.
+                </p>
+              </div>
+            </div>
+            <span className="absolute -bottom-4 -right-4 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-maya-amethyst to-maya-ruby text-white shadow-jewel ring-4 ring-ink">
+              <Sparkles size={20} />
+            </span>
           </div>
         </div>
       </section>

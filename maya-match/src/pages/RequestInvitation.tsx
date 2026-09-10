@@ -123,11 +123,13 @@ export const RequestInvitation: React.FC = () => {
             You were invited by a Maya Match member — referral code {ref}.
           </div>
         )}
-        <Eyebrow>Step 1 of your Maya journey</Eyebrow>
-        <h1 className="mt-2 font-display text-3xl font-semibold text-ink sm:text-4xl">Request Your Invitation</h1>
+        <Eyebrow>Request an Invitation</Eyebrow>
+        <h1 className="mt-2 font-display text-3xl font-semibold text-ink sm:text-4xl">
+          Tell Maya Match a little about yourself
+        </h1>
         <p className="mt-3 max-w-xl text-ink/60">
-          This short form helps Maya understand who is looking for meaningful connection in your area. It
-          creates your permanent Maya Profile — no payment, no pressure.
+          Maya Match is building a curated, screened community market by market. Every new member is reviewed
+          before becoming eligible for Dream Dates.
         </p>
 
         <div className="mt-6 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap sm:gap-5">
