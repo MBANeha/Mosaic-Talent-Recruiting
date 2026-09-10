@@ -115,6 +115,8 @@ export interface Member {
   /** Private password gating access to this member's curated profiles (Dream Dates picks). Demo-only, stored client-side. */
   dreamDatesPassword?: string;
   freeDatesAlumni?: boolean;
+  /** Answers to Maya's "get to know you" companion questions, in the order they were asked. */
+  mayaAnswers: MayaQA[];
 }
 
 export interface PickCandidate {
@@ -193,6 +195,15 @@ export interface Region {
   strongSegments: string[];
   weakSegments: string[];
   growthRecommendation: string;
+}
+
+export interface MayaQA {
+  id: string;
+  question: string;
+  answer: string;
+  ack: string;
+  askedAt: number;
+  answeredAt: number;
 }
 
 export type InboxMessageKind = 'text' | 'audio';

@@ -11,6 +11,7 @@ import type {
   MembershipTier,
   MigrationCandidate,
   InboxMessage,
+  MayaQA,
 } from '../types';
 import {
   REGIONS,
@@ -20,6 +21,7 @@ import {
   ADMIN_TODAY_BASE,
   INBOX_OPENER_LINES,
   INBOX_REPLY_LINES,
+  MAYA_ACK_LINES,
 } from './seed';
 
 const STORAGE_KEY = 'maya-dream-dates-db-v1';
@@ -126,6 +128,7 @@ interface StoreValue {
   purchaseMembership: (memberId: string, tier: MembershipTier) => void;
   payConsultation: (memberId: string) => void;
   setDreamDatesPassword: (memberId: string, password: string) => void;
+  answerMayaQuestion: (memberId: string, questionId: string, questionText: string, answer: string) => void;
   requestDreamDate: (memberId: string, pickId: string) => DreamDateRequest | null;
   resolveRequest: (requestId: string) => void;
   scheduleDate: (requestId: string, slotLabel: string) => void;
@@ -220,6 +223,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         referralCode: randomCode(input.firstName + input.lastName),
         referredCount: 0,
         referralCreditsEarned: 0,
+        mayaAnswers: [],
       };
       setDb((prev) => ({
         ...prev,
@@ -278,6 +282,18 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     setDreamDatesPassword(memberId, password) {
       updateMember(memberId, { dreamDatesPassword: password });
+    },
+
+    answerMayaQuestion(memberId, questionId, questionText, answer) {
+      const qa: MayaQA = {
+        id: questionId,
+        question: questionText,
+        answer,
+        ack: randomFrom(MAYA_ACK_LINES),
+        askedAt: Date.now(),
+        answeredAt: Date.now(),
+      };
+      updateMember(memberId, (m) => ({ mayaAnswers: [...m.mayaAnswers, qa] }));
     },
 
     requestDreamDate(memberId, pickId) {

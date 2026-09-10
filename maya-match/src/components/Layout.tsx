@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Sparkles, Menu, X } from 'lucide-react';
 import { useStore } from '../data/store';
+import { MayaCompanion } from './MayaCompanion';
 
 const Logo: React.FC<{ dark?: boolean }> = ({ dark }) => (
   <Link to="/" className="flex items-center gap-2 shrink-0">
@@ -135,5 +136,6 @@ export const Page: React.FC<{ children: React.ReactNode }> = ({ children }) => (
     <Nav />
     <main className="flex-1">{children}</main>
     <Footer />
+    <MayaCompanion />
   </div>
 );

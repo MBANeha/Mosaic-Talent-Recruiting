@@ -197,6 +197,7 @@ export const SEED_MEMBERS: Member[] = [
     referralCode: 'PRIYA25',
     referredCount: 2,
     referralCreditsEarned: 40,
+    mayaAnswers: [],
   },
   {
     id: 'seed-2',
@@ -240,6 +241,7 @@ export const SEED_MEMBERS: Member[] = [
     referralCode: 'KABIR40',
     referredCount: 0,
     referralCreditsEarned: 0,
+    mayaAnswers: [],
   },
   {
     id: 'seed-3',
@@ -283,6 +285,7 @@ export const SEED_MEMBERS: Member[] = [
     referralCode: 'MEERA29',
     referredCount: 1,
     referralCreditsEarned: 20,
+    mayaAnswers: [],
   },
   {
     id: 'seed-4',
@@ -327,6 +330,7 @@ export const SEED_MEMBERS: Member[] = [
     referralCode: 'SANJAY42',
     referredCount: 0,
     referralCreditsEarned: 0,
+    mayaAnswers: [],
   },
 ];
 
@@ -393,6 +397,25 @@ export const INBOX_REPLY_LINES = [
   "That's so funny, I was just thinking about that too",
   "I like how you think about that",
   "Okay you're making this very easy to talk to",
+];
+
+export const MAYA_QUESTIONS: { id: string; question: string }[] = [
+  { id: 'mq1', question: "What's a small thing that instantly makes you trust someone?" },
+  { id: 'mq2', question: 'What does a genuinely great Sunday look like for you?' },
+  { id: 'mq3', question: "What's something you're weirdly proud of?" },
+  { id: 'mq4', question: "What's a dealbreaker you didn't know you had until it happened?" },
+  { id: 'mq5', question: "What's the most 'you' way to spend a first date?" },
+  { id: 'mq6', question: "What's a compliment you got once that you still think about?" },
+  { id: 'mq7', question: 'What do you want a match to know about you before you meet?' },
+  { id: 'mq8', question: 'When do you feel most like yourself?' },
+];
+
+export const MAYA_ACK_LINES = [
+  'I love that — noted 💜',
+  "That's such a good answer, thank you for sharing that.",
+  "Okay, I'm taking notes on this one.",
+  'This is exactly the kind of thing that helps me match you well.',
+  'Saving that one — it tells me a lot.',
 ];
 
 export const ADMIN_TODAY_BASE = {
