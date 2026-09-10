@@ -12,6 +12,8 @@ export type ReviewDecision = 'NOT_SUBMITTED' | 'PENDING' | 'INVITED' | 'BUILDING
 
 export type AiRecommendation = 'STRONG_FIT' | 'WAITLIST' | 'NOT_CURRENTLY_FIT';
 
+export type SocialNetwork = 'Facebook' | 'Instagram' | 'LinkedIn' | '';
+
 export interface InvitationInput {
   firstName: string;
   lastName: string;
@@ -32,6 +34,12 @@ export interface InvitationInput {
   referralSource: string;
   mayaInsiderOptIn: boolean;
   referredByCode?: string;
+  /** Data URL of the uploaded photo — required so Maya can review a real photo, not just a written profile. */
+  photoDataUrl: string;
+  socialNetwork: SocialNetwork;
+  socialHandle: string;
+  /** Which price ranges they'd consider, so Maya can gauge budget before pitching a tier. */
+  budgetInterest: string[];
 }
 
 export interface AboutMeSection {

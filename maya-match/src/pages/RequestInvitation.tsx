@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Camera } from 'lucide-react';
 import { Page } from '../components/Layout';
 import { Button, Card, Eyebrow, Field, Input, Select, Textarea, CheckboxRow } from '../components/ui';
 import { useStore } from '../data/store';
-import type { InvitationInput } from '../types';
+import { BUDGET_OPTIONS } from '../data/seed';
+import type { InvitationInput, SocialNetwork } from '../types';
 
 const METROS = ['NYC Metro', 'DMV', 'Boston', 'Philadelphia', 'Other / Not Listed Yet'];
+const NOT_INTERESTED = 'Not interested in paid services';
 
 const emptyForm: InvitationInput = {
   firstName: '',
@@ -26,7 +29,20 @@ const emptyForm: InvitationInput = {
   whyMaya: '',
   referralSource: '',
   mayaInsiderOptIn: true,
+  photoDataUrl: '',
+  socialNetwork: '',
+  socialHandle: '',
+  budgetInterest: [],
 };
+
+function fileToDataUrl(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result as string);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
 
 export const RequestInvitation: React.FC = () => {
   const { requestInvitation } = useStore();
@@ -35,12 +51,43 @@ export const RequestInvitation: React.FC = () => {
   const ref = params.get('ref');
   const [form, setForm] = useState<InvitationInput>({ ...emptyForm, referredByCode: ref ?? undefined });
   const [submitting, setSubmitting] = useState(false);
+  const [photoError, setPhotoError] = useState('');
 
   const set = <K extends keyof InvitationInput>(key: K, value: InvitationInput[K]) =>
     setForm((f) => ({ ...f, [key]: value }));
 
+  async function handlePhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      setPhotoError('Please choose an image file.');
+      return;
+    }
+    setPhotoError('');
+    const dataUrl = await fileToDataUrl(file);
+    set('photoDataUrl', dataUrl);
+  }
+
+  function toggleBudget(option: string) {
+    setForm((f) => {
+      if (option === NOT_INTERESTED) {
+        return { ...f, budgetInterest: f.budgetInterest.includes(NOT_INTERESTED) ? [] : [NOT_INTERESTED] };
+      }
+      const withoutNotInterested = f.budgetInterest.filter((b) => b !== NOT_INTERESTED);
+      const has = withoutNotInterested.includes(option);
+      return {
+        ...f,
+        budgetInterest: has ? withoutNotInterested.filter((b) => b !== option) : [...withoutNotInterested, option],
+      };
+    });
+  }
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!form.photoDataUrl) {
+      setPhotoError('A photo is required so Maya can review you.');
+      return;
+    }
     setSubmitting(true);
     requestInvitation(form);
     setTimeout(() => navigate('/confirmation'), 350);
@@ -153,6 +200,73 @@ export const RequestInvitation: React.FC = () => {
             <Field label="Why are you interested in Maya?" required className="sm:col-span-2">
               <Textarea required value={form.whyMaya} onChange={(e) => set('whyMaya', e.target.value)} />
             </Field>
+
+            <Field label="Upload a photo" required className="sm:col-span-2">
+              <div className="flex items-center gap-4">
+                <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-dashed border-ink/20 bg-sand/60">
+                  {form.photoDataUrl ? (
+                    <img src={form.photoDataUrl} alt="Your upload" className="h-full w-full object-cover" />
+                  ) : (
+                    <Camera size={20} className="text-ink/30" />
+                  )}
+                </div>
+                <div>
+                  <label className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-ink/15 bg-white px-4 py-2 text-sm font-semibold text-ink/70 transition hover:border-maya-amethyst hover:text-maya-amethyst">
+                    {form.photoDataUrl ? 'Change photo' : 'Choose a photo'}
+                    <input type="file" accept="image/*" className="hidden" onChange={handlePhotoChange} />
+                  </label>
+                  <p className="mt-1.5 text-xs text-ink/40">Only Maya sees this — never shown publicly.</p>
+                </div>
+              </div>
+              {photoError && <p className="mt-2 text-xs font-medium text-maya-ruby">{photoError}</p>}
+            </Field>
+
+            <Field label="Social network" required>
+              <Select
+                required
+                value={form.socialNetwork}
+                onChange={(e) => set('socialNetwork', e.target.value as SocialNetwork)}
+              >
+                <option value="">Select</option>
+                {['Facebook', 'Instagram', 'LinkedIn'].map((n) => (
+                  <option key={n}>{n}</option>
+                ))}
+              </Select>
+            </Field>
+            <Field label="Your handle" required hint="so Maya can verify it's really you">
+              <Input
+                required
+                value={form.socialHandle}
+                onChange={(e) => set('socialHandle', e.target.value)}
+                placeholder="@yourhandle"
+              />
+            </Field>
+
+            <div className="sm:col-span-2">
+              <span className="mb-2 block text-sm font-semibold text-ink/80">
+                What would you consider spending? <span className="font-normal text-ink/40">(optional — helps Maya gauge fit)</span>
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {BUDGET_OPTIONS.map((option) => {
+                  const active = form.budgetInterest.includes(option);
+                  return (
+                    <button
+                      type="button"
+                      key={option}
+                      onClick={() => toggleBudget(option)}
+                      className={`rounded-full border px-3.5 py-1.5 text-xs font-medium transition ${
+                        active
+                          ? 'border-maya-amethyst bg-maya-amethyst/10 text-maya-amethystDark'
+                          : 'border-ink/15 text-ink/60 hover:border-ink/30'
+                      }`}
+                    >
+                      {option}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
             <Field label="How did you hear about us?">
               <Input value={form.referralSource} onChange={(e) => set('referralSource', e.target.value)} />
             </Field>

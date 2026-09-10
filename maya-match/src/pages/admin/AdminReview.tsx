@@ -1,4 +1,5 @@
 import React from 'react';
+import { Facebook, Instagram, Linkedin, User } from 'lucide-react';
 import { AdminLayout } from '../../components/AdminLayout';
 import { useStore } from '../../data/store';
 import type { AiRecommendation } from '../../types';
@@ -7,6 +8,12 @@ const AI_LABEL: Record<AiRecommendation, { label: string; color: string }> = {
   STRONG_FIT: { label: 'Strong Fit', color: 'text-maya-emerald' },
   WAITLIST: { label: 'Waitlist', color: 'text-maya-goldLight' },
   NOT_CURRENTLY_FIT: { label: 'Not Currently Fit', color: 'text-maya-ruby' },
+};
+
+const SOCIAL_ICON: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+  Facebook,
+  Instagram,
+  LinkedIn: Linkedin,
 };
 
 export const AdminReview: React.FC = () => {
@@ -28,26 +35,42 @@ export const AdminReview: React.FC = () => {
         <div className="mt-8 flex flex-col gap-4">
           {reviewQueue.map((m) => {
             const ai = m.aiRecommendation ? AI_LABEL[m.aiRecommendation] : null;
+            const SocialIcon = m.invitation.socialNetwork ? SOCIAL_ICON[m.invitation.socialNetwork] : null;
             return (
               <div key={m.id} className="rounded-2xl border border-white/10 bg-white/5 p-6">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                  <div>
-                    <div className="flex items-center gap-3">
-                      <h3 className="font-display text-lg font-semibold text-white">
-                        {m.invitation.firstName} {m.invitation.lastName}
-                      </h3>
-                      {m.isDemoUser && (
-                        <span className="rounded-full bg-maya-amethyst/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-maya-amethystLight">
-                          Live demo profile
-                        </span>
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+                      {m.invitation.photoDataUrl ? (
+                        <img src={m.invitation.photoDataUrl} alt="" className="h-full w-full object-cover" />
+                      ) : (
+                        <User size={20} className="text-cream/30" />
                       )}
                     </div>
-                    <p className="mt-1 text-sm text-cream/50">
-                      {m.invitation.age} · {m.invitation.gender} seeking {m.invitation.interestedIn} · {m.region}
-                    </p>
-                    <p className="mt-1 text-sm text-cream/50">
-                      Profile {m.profileCompletion}% complete · {m.invitation.relationshipGoal}
-                    </p>
+                    <div>
+                      <div className="flex items-center gap-3">
+                        <h3 className="font-display text-lg font-semibold text-white">
+                          {m.invitation.firstName} {m.invitation.lastName}
+                        </h3>
+                        {m.isDemoUser && (
+                          <span className="rounded-full bg-maya-amethyst/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-maya-amethystLight">
+                            Live demo profile
+                          </span>
+                        )}
+                      </div>
+                      <p className="mt-1 text-sm text-cream/50">
+                        {m.invitation.age} · {m.invitation.gender} seeking {m.invitation.interestedIn} · {m.region}
+                      </p>
+                      <p className="mt-1 text-sm text-cream/50">
+                        Profile {m.profileCompletion}% complete · {m.invitation.relationshipGoal}
+                      </p>
+                      {m.invitation.socialHandle && (
+                        <p className="mt-1 flex items-center gap-1.5 text-xs text-cream/40">
+                          {SocialIcon && <SocialIcon size={12} />}
+                          {m.invitation.socialNetwork}: {m.invitation.socialHandle}
+                        </p>
+                      )}
+                    </div>
                   </div>
                   {ai && (
                     <div className="text-left sm:text-right">
@@ -60,6 +83,16 @@ export const AdminReview: React.FC = () => {
                 <p className="mt-4 rounded-xl bg-black/20 p-4 text-sm italic text-cream/60">
                   "{m.invitation.whyMaya}"
                 </p>
+
+                {m.invitation.budgetInterest.length > 0 && (
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {m.invitation.budgetInterest.map((b) => (
+                      <span key={b} className="rounded-full bg-white/10 px-2.5 py-1 text-[11px] text-cream/60">
+                        {b}
+                      </span>
+                    ))}
+                  </div>
+                )}
 
                 <div className="mt-5 flex flex-wrap gap-3">
                   <button

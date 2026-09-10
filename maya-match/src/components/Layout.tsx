@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Sparkles, Menu, X } from 'lucide-react';
+import { Sparkles, Menu, X, Instagram } from 'lucide-react';
 import { useStore } from '../data/store';
 import { MayaCompanion } from './MayaCompanion';
 
@@ -104,6 +104,14 @@ export const Footer: React.FC = () => (
           <p className="mt-3 max-w-xs text-sm leading-relaxed">
             A private, curated dating community for Desi &amp; diverse professionals. Launching region by region.
           </p>
+          <a
+            href="https://www.instagram.com/mayamatchmaking?stkn=ZzhkamQ3ejJlZjc4&utm_source=qr"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-cream/70 hover:text-cream"
+          >
+            <Instagram size={16} /> Follow @mayamatchmaking
+          </a>
         </div>
         <div className="grid grid-cols-2 gap-10 text-sm sm:grid-cols-3">
           <div className="flex flex-col gap-2">

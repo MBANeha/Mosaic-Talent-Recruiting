@@ -546,6 +546,10 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         whyMaya: 'Ready for something intentional, curated by someone who actually reads the profile.',
         referralSource: 'Preview tool',
         mayaInsiderOptIn: true,
+        photoDataUrl: '',
+        socialNetwork: 'Instagram',
+        socialHandle: '@preview.member',
+        budgetInterest: ['Amethyst — $549–$629', 'Diamond — $749–$849'],
       };
 
       const matchProfile: MatchProfile = {

@@ -1,9 +1,12 @@
 import React from 'react';
 import { Link, Navigate } from 'react-router-dom';
-import { Copy, Check, ArrowRight } from 'lucide-react';
+import { Copy, Check, ArrowRight, ExternalLink } from 'lucide-react';
 import { Page } from '../components/Layout';
 import { Button, Card, Eyebrow } from '../components/ui';
 import { useStore } from '../data/store';
+
+const INTAKE_FORM_URL =
+  'https://docs.google.com/forms/u/0/d/e/1FAIpQLSe1IhKmzV5HKToQeb0DdZ_oBTAqudnVnNnrRIp7EOTgm6mEkQ/viewform?pli=1';
 
 export const Confirmation: React.FC = () => {
   const { currentMember } = useStore();
@@ -47,11 +50,34 @@ export const Confirmation: React.FC = () => {
           </Link>
         </Card>
 
+        <Card className="mt-6 p-8 text-left">
+          <Eyebrow>Want to move faster?</Eyebrow>
+          <h2 className="mt-2 font-display text-xl font-semibold text-ink">
+            Complete your intake &amp; book your consultation
+          </h2>
+          <p className="mt-2 text-sm text-ink/60">
+            Finish our short intake form, then schedule your private $50 matchmaking consultation. If you
+            join Dream Dates, that $50 is credited straight toward your membership.
+          </p>
+          <p className="mt-2 text-xs text-ink/40">
+            Entirely optional and on your own timeline — this doesn't wait on Maya's review, and Maya won't
+            chase you about it. The ball's in your court.
+          </p>
+          <a href={INTAKE_FORM_URL} target="_blank" rel="noopener" className="mt-5 inline-block">
+            <Button variant="outline" size="lg" className="w-full sm:w-auto">
+              Complete Intake &amp; Book Consultation <ExternalLink size={16} />
+            </Button>
+          </a>
+        </Card>
+
         <Card muted className="mt-6 p-8 text-left">
           <Eyebrow>Grow your pool</Eyebrow>
           <h2 className="mt-2 font-display text-xl font-semibold text-ink">Know someone who belongs in Maya?</h2>
           <p className="mt-2 text-sm text-ink/60">
             Invite a single friend and help Maya build a stronger pool for everyone — including you.
+          </p>
+          <p className="mt-1 text-xs text-ink/40">
+            Earn a $20 Maya Match credit once they join and make a purchase over $200.
           </p>
           <div className="mt-5 flex flex-col gap-3 sm:flex-row">
             <div className="flex-1 truncate rounded-xl border border-ink/10 bg-white px-4 py-3 font-mono text-sm text-ink/70">
